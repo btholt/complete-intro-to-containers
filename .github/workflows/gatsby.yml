@@ -22,7 +22,7 @@ jobs:
         npm run build
     - name: Gatsby Publish
       uses: enriikke/gatsby-gh-pages-action@1.0.1
-      env:
+      with:
         BRANCH: gh-pages
         ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         FOLDER: public
