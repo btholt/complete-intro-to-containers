@@ -20,9 +20,8 @@ jobs:
       run: |
         npm install
         npm run build
-    - name: Gatsby Publish
-      uses: enriikke/gatsby-gh-pages-action@1.0.1
+    - name: GitHub Pages Publish
+      uses: maxheld83/ghpages@v0.2.1
       with:
-        BRANCH: gh-pages
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        FOLDER: public
+        GH_PAT: ${{ secrets.ACCESS_TOKEN }}
+        BUILD_DIR: public
