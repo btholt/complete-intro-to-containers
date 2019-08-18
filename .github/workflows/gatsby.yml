@@ -1,0 +1,28 @@
+name: Deploy Gatsby Site
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10.x
+    - name: npm install, build, and test
+      run: |
+        npm install
+        npm run build
+    - name: Gatsby Publish
+      uses: enriikke/gatsby-gh-pages-action@1.0.1
+      env:
+        BRANCH: gh-pages
+        ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        FOLDER: public
