@@ -1,5 +1,10 @@
 .gradient {
-  background: linear-gradient(135deg, #ffa84c 0%, #ff7b0d 100%);
+  background: rgb(96, 108, 136);
+  background: linear-gradient(
+    to bottom,
+    rgb(96, 108, 136) 0%,
+    rgb(63, 76, 107) 100%
+  );
 }
 
 .navbar {
