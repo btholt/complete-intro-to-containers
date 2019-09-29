@@ -96,11 +96,73 @@ Now, finally, run `chroot my-new-root bash` and run `ls`. You should successfull
 
 Now try running `cat secret.txt`. Oh no! Your new chroot-ed environment doesn't know how to cat! As an exercise, go make `cat` work the same way we did above!
 
-Congrats you just cha-rooted the shit out of your first environment!
+Congrats you just cha-rooted the \*\*\*\* out of your first environment!
 
 ## namespace
 
+While chroot is a pretty straightforward, namespaces and cgroups are a bit more nebulous to understand but no less important. Both of these next two features are for security and resource management.
+
+Let's say you're running own a big server that's in your home and you're selling space to other people (that you don't know) to run their code on your server. What sort of concerns would you have? Let's say you have Alice and Bob who are running e-commerce services dealing with lots of money. They themselves are good citizens of the servers and minding their own business. But then you have Eve join the server who has other intentions: she wants to steal money, source code, and whatever else she can get her hands on from your other tenants on the server. If just gave all three them root access to server, what's to stop Eve from taking everything? Or what if she just wants to disrupt their businesses, even if she's not stealing anything?
+
+Your first line of defense is that you could log them into chroot'd environments and limit them to only those. Great! Now they can't see each others' files. Problem solved? Well, no, not quite yet. Despite the fact that she can't see the files, she can still see all the processes going on on the computer. She can kill processes, unmount filesystem and potentially even hijack processes.
+
+Enter namespaces. Namespaces allow you to hide processes from other processes. If we give each chroot'd environment different sets of namespaces, now Alice, Bob, and Eve can't see each others' processes (they even get different process PIDs, or process IDs, so they can't guess what the others have) and you can't steal or hijack what you can't see!
+
+There's a lot more depth to namespaces beyond what I've outlined here. The above is describing _just_ the UTS (or UNIX Timesharing) namespace. There are more namespaces as well and this will help these containers stay isloated from each other.
+
+# TODO Show how to exploit a chroot'd environment
+
+So let's create a chroot'd environment now that's isolated using namespaces using a new command: `unshare`. `unshare` creates a new isolated namespace from its parent (so you, the server provider can't spy on Bob nor Alice either) and all other future tenants. Run this:
+
+```bash
+unshare --mount --uts --ipc --net --pid --fork --user --map-root-user chroot $PWD/rootfs bash
+```
+
+This will create a new environment that's isolated on the system with its own PIDs, mounts (like storage and volumes), and network stack. Now we can't see any of the processes!
+
 ## cgroups
+
+Okay, so now we've hidden the processes from Eve so Bob and Alice can engage in commerce in privacy and peace. So we're all good, right? They can no longer mess each other, right? Not quite. We're almost there.
+
+So now say it's Black Friday, Boxing Day or Singles' Day (three of the biggest shopping days in the year, pick the one that makes the most sense to you 😄) and Bob and Alice are gearing up for their biggest sales day of the year. Everything is ready to go and at 9:00AM their site suddenly goes down without warning. What happened!? They log on to their chroot'd, unshare'd shell on your server and see that the CPU is pegged at 100% and there's no more memory available to allocate! Oh no! What happened?
+
+The first explanation could be that Eve has her site running on another server and simple logged on and ran a program that ate up all the available resources so that Bob and Alice so that their sites would go down and Eve would be the only site that was up, increasing her sales.
+
+However another, possibly more likely explanation is that both Bob's and Alice's sites got busy at the same time and that in-and-of-itself took all the resources without any malice involved, taking down their sites and everyone else on the server. Or perhaps Bob's site had a memory leak and that was enough to take all the resources available.
+
+Suffice to say, we still have a problem. Every isolated environment has access to all _physical_ resources of the server. There's no isolation of physical components from these environments.
+
+Enter the hero of this story: cgroups, or control groups. Google saw this same problem when building their own infrastructure and wanted to protect runaway processes from taking down entire servers and made this idea of cgroups so you can say "this isolated environment only gets so much CPU, so much memory, etc. and once it's out of those it's out-of-luck, it won't get any more."
+
+This is a bit more difficult to accomplish but let's go ahead and give it a shot.
+
+# TODO Clean up demo. Make it make a cgroup'd, chroot'd, unshare'd
+
+```bash
+# create new cgroups
+cgcreate -g cpu,memory,blkio,devices,freezer:/sandbox
+
+# list tasks associated to the sandbox cpu group:
+cat /sys/fs/cgroup/cpu/sandbox/tasks
+# show the cpu share of the sandbox cpu group:
+cat /sys/fs/cgroup/cpu/sandbox/cpu.shares
+# kill all of sandbox's processes
+kill -9 $(cat /sys/fs/cgroup/cpu/sandbox/tasks)
+
+# Limit usage at 10% for a multi core system
+cgset -r cpu.cfs_period_us=100000 \
+     -r cpu.cfs_quota_us=$[ 10000 * $(getconf _NPROCESSORS_ONLN) ] \
+           sandbox
+
+# Set a limit of 2Gb
+cgset -r memory.limit_in_bytes=2G sandbox
+# Get memory stats used by the cgroup
+cgget -r memory.stat sandbox
+```
+
+And now we can call this a container. Using these features together, we allow Bob, Alice, and Eve to run whatever code they want and the only people they can mess with is themselves.
+
+So while this is a container at its most basic sense, we haven't broached more advance topics like networking, deploying, bundling, or anything else that something like Docker takes care of for us. But now you know at its most base level what a container is, what it does, and how you _could_ do this yourself but you'll be grateful that Docker does it for you. On to the next lesson!
 
 [james]: https://frontendmasters.com/courses/bash-vim-regex/
 [fork-bomb]: https://en.wikipedia.org/wiki/Fork_bomb
