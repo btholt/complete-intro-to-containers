@@ -96,17 +96,27 @@ This will copy your index.js file from your file system into the Docker file sys
 
 We then modified the `CMD` to start the server when we finally do run the container. Now run
 
-```dockerfile
-docker build . -t my-node-app
+```bash
+docker build -t my-node-app .
 docker run my-node-app
 ```
 
-Now your Node.js app is running inside of Docker! Hooray!
+Now your Node.js app is running inside of a container managed by Docker! Hooray! But one problem, how do we access it? If you open [locahlost:3000][localhost] now, it doesn't work! We have to tell Docker to expose the port. So let's do that now. Stop your container from running and run it again like this.
+
+```bash
+docker run --publish 3000:3000 my-node-app # or you can use -p instead of --publish
+```
+
+The `publish` part allows you to forward a port out of a container to the host computer. In this case we're forwarding the port of `3000` (which is what the Node.js server was listening on) to port `3000` on the host machine. The `3000` represents the port on the host machine and the second `3000` represents what port is being used in the container. If you did `docker run --publish 8000:3000 my-node-app`, you'd open `localhost:8000` to see the server (running on port `3000` inside the container).
+
+Next, let's organize ourselves a bit better. Right now we're putting our app into the root directory of our container and running it as the root user. This both messy and unsafe. If there's an exploit for Node.js that get released, it means that whoever uses that exploit on our Node.js server will doing so as root which means they can do whatever they want. Ungood. So let's fix that. We'll put the 
 
 ## TODO
 
 - Expose port, actually open the page in the browser
+- Put the app in a better spot
 - Add in package.json, npm install
+- Layers
 - Show incremental rebuilds by splitting out package.json copy and install
 - Demonstrate `RUN`
   - `ENV`
