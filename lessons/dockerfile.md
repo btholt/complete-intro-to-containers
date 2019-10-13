@@ -32,7 +32,7 @@ Our container has two instructions in its Dockerfile, but actually it has many, 
 
 This is something very powerful about Docker: you can use images to build other images and build on the work of others. Instead of having to worry about how to install Debian and all the necessary items to build Node.js from its source, we can just start with a well-put-together image from the community.
 
-Okay, so we start with `node:latest` and then we add the `CMD` instruction. There will only ever be one of these in effect in a Dockerfile. If you have multiple it'll just take the last one. This is what you want Docker to do when someone runs the container. In our case, we're running `node -e "console.log('hi lol')"` from within the container. `node -e`, if you don't know, will run whatever is inside of the parens with Node.js. In this case, we're logging out `hi lol` to the console.
+Okay, so we start with `node:latest` and then we add the `CMD` instruction. There will only ever be one of these in effect in a Dockerfile. If you have multiple it'll just take the last one. This is what you want Docker to do when someone runs the container. In our case, we're running `node -e "console.log('hi lol')"` from within the container. `node -e`, if you don't know, will run whatever is inside of the quotes with Node.js. In this case, we're logging out `hi lol` to the console.
 
 You _can_ put `CMD node -e "console.log('hi lol')"` as that last line and it'll work but it's not the preferred way of doing it. This won't actually go through bash which itself is simpler and usually safer. I do it this way because the docs strongly encourage you to do it this way.
 
@@ -109,7 +109,7 @@ docker run --publish 3000:3000 my-node-app # or you can use -p instead of --publ
 
 The `publish` part allows you to forward a port out of a container to the host computer. In this case we're forwarding the port of `3000` (which is what the Node.js server was listening on) to port `3000` on the host machine. The `3000` represents the port on the host machine and the second `3000` represents what port is being used in the container. If you did `docker run --publish 8000:3000 my-node-app`, you'd open `localhost:8000` to see the server (running on port `3000` inside the container).
 
-Next, let's organize ourselves a bit better. Right now we're putting our app into the root directory of our container and running it as the root user. This both messy and unsafe. If there's an exploit for Node.js that get released, it means that whoever uses that exploit on our Node.js server will doing so as root which means they can do whatever they want. Ungood. So let's fix that. We'll put the 
+Next, let's organize ourselves a bit better. Right now we're putting our app into the root directory of our container and running it as the root user. This both messy and unsafe. If there's an exploit for Node.js that get released, it means that whoever uses that exploit on our Node.js server will doing so as root which means they can do whatever they want. Ungood. So let's fix that. We'll put the directory inside our home directory under a different users.
 
 ## TODO
 
