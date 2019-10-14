@@ -111,6 +111,128 @@ The `publish` part allows you to forward a port out of a container to the host c
 
 Next, let's organize ourselves a bit better. Right now we're putting our app into the root directory of our container and running it as the root user. This both messy and unsafe. If there's an exploit for Node.js that get released, it means that whoever uses that exploit on our Node.js server will doing so as root which means they can do whatever they want. Ungood. So let's fix that. We'll put the directory inside our home directory under a different users.
 
+```dockerfile
+FROM node:latest
+
+USER node
+
+COPY index.js /home/node/code/index.js
+
+CMD ["node", "/home/node/code/index.js"]
+```
+
+The `USER` instruction let's us switch from being the root user to a different user, one called "node" which the `node:latest` image has already made for us. We could make our own user too using bash commands but let's just use the one the node image gave us. (More or less you'd run `RUN useradd -ms /bin/bash lolcat` to add a lolcat user.)
+
+Notice we're now copying inside of the user's home directory. This is because they'll have proper permissions to interact with those files whereas they may not if we were outside of their home directory. You'll save yourself a lot of permission wrangling if you put it in a home directory.
+
+It's no big deall that the "code" directory doesn't exist, `COPY` will create it.
+
+Great. Let's make everything a bit more succint by setting a working directory
+
+```dockerfile
+FROM node:latest
+
+USER node
+
+WORKDIR /home/node/code
+
+COPY index.js .
+
+CMD ["node", "index.js"]
+```
+
+`WORKDIR` works as if you had `cd`'d into that directory, so now all paths are relative to that. And again, if it doesn't exist, it will create it for you.
+
+Now we just tell `COPY` to copy the file into the same directory. Now we're giving it a directory instead of a file name, it'll just assume we want the same name. You could rename it here if you wanted.
+
+## A more complicated app
+
+Okay, all looking good so far. Let's make this app go one step further. Let's have it have an npm install step! In the directory where your app is, put this:
+
+```javascript
+const hapi = require("@hapi/hapi");
+
+async function start() {
+  const server = hapi.server({
+    host: "localhost",
+    port: process.env.PORT || 3000
+  });
+
+  server.route({
+    method: "GET",
+    path: "/",
+    handler() {
+      return { success: true };
+    }
+  });
+
+  await server.register({
+    plugin: require("hapi-pino"),
+    options: {
+      prettyPrint: true
+    }
+  });
+
+  await server.start();
+
+  return server;
+}
+
+start().catch(err => {
+  console.log(err);
+  process.exit(1);
+});
+```
+
+This is a [hapi.js][hapi] server. Hapi is a server-side framework (like Express) for Node.js and my personal favorite. This is going to require that we `npm install` the dependencies. So in your project do the following
+
+```bash
+npm init -y # this will create a package.json for you without asking any questions
+npm install @hapi/hapi hapi-pino
+```
+
+Now try running `node index.js` to run the Node.js server. You should see it running and logging out info whenever you hit an endpoint. Cool, so now that we have a full featured Node.js app, let's containerize it.
+
+If we tried to build it and run it right now it'd fail because we didn't `npm install` the dependencies. So now right after the `COPY` we'll add a `RUN`.
+
+```dockerfile
+FROM node:latest
+
+USER node
+
+WORKDIR /home/node/code
+
+COPY . .
+
+RUN npm ci
+
+CMD ["node", "index.js"]
+```
+
+We changed the `COPY` to copy everything in the directory. Right now you probably a `node_modules` but if you're building a container directly from a repo it won't copy the `node_modules` so we have to operate under the assumption that those won't be there. Feel free even to delete them if you want.
+
+We then added a `RUN` instruction to run a command inside of the container. If you're not familiar with `npm ci` it's very similar to `npm install` with a few key differences: it'll follow the `package-lock.json` exactly (where `npm install` will ignore it and update it if newer patch versions of your dependencies are available) and it'll automatically delete `node_modules` if it exists. `npm ci` is made for situations like this.
+
+Now if you try to build again, it'll fail with permissions issues. Why? Well, when you have `WORKDIR` create a directory, it does so as root which means that the node user won't have enough permissions to modify that directory. We could either use `RUN` to change the user or we could use `RUN` to make the directory in the first place as node. Let's do the latter.
+
+```dockerfile
+FROM node:latest
+
+USER node
+
+RUN mkdir /home/node/code
+
+WORKDIR /home/node/code
+
+COPY . .
+
+RUN npm ci
+
+CMD ["node", "index.js"]
+```
+
+Now try building and running your container. It should work now! Yay!
+
 ## TODO
 
 - Expose port, actually open the page in the browser
