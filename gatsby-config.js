@@ -13,7 +13,7 @@ module.exports = {
       "nodejs"
     ]
   },
-  //pathPrefix: "/my-repo-name", // if you're using GitHub Pages, put the name of the repo here with a leading slash
+  pathPrefix: "/complete-intro-to-containers", // if you're using GitHub Pages, put the name of the repo here with a leading slash
   plugins: [
     `gatsby-plugin-layout`,
     {
