@@ -1,4 +1,4 @@
-name: Deploy Gatsby Site
+name: Deploy Gatsby Site to GitHub Pages
 
 on:
   push:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: npm install, test and build
+      - name: npm install and build
         run: |
           npm install
           npm run build
@@ -18,4 +18,4 @@ jobs:
         uses: alex-page/blazing-fast-gh-pages-deploy@v1.1.0
         with:
           repo-token: ${{ secrets.ACCESS_TOKEN }}
-          site-directory: build
+          site-directory: public
