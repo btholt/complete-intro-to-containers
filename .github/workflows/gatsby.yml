@@ -6,11 +6,16 @@ on:
       - master
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: xmflsct/action-publish-gatsby@v1 # Uses this action to run further steps
+      - uses: actions/checkout@master
+      - name: npm install, test and build
+        run: |
+          npm install
+          npm run build
+      - name: Deploy site to gh-pages branch
+        uses: alex-page/blazing-fast-gh-pages-deploy@v1.1.0
         with:
-          publishBranch: 'gh-pages' # Not required, default publishing branch is master
-          token: ${{ secrets.NAME }} # Your personal access token of GitHub, read more below of how to obtain one and keep it safe
+          repo-token: ${{ secrets.ACCESS_TOKEN }}
+          site-directory: build
