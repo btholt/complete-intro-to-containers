@@ -150,11 +150,12 @@ Now we just tell `COPY` to copy the file into the same directory. Now we're givi
 Okay, all looking good so far. Let's make this app go one step further. Let's have it have an npm install step! In the directory where your app is, put this:
 
 ```javascript
+// more-or-less the example code from the hapi-pino repo
 const hapi = require("@hapi/hapi");
 
 async function start() {
   const server = hapi.server({
-    host: "localhost",
+    host: "0.0.0.0",
     port: process.env.PORT || 3000
   });
 
@@ -233,20 +234,41 @@ CMD ["node", "index.js"]
 
 Now try building and running your container. It should work now! Yay!
 
-## TODO
+A side note: make sure you don't bind your app to host `localhost` (like if you put `localhost` instead of `0.0.0.0` in the host in our hapi app.) This will make it so the app is only available _inside_ the container. If you see `connection reset` instead of when you're expecting a response, this a good candidate for what's happening (because this definitely didn't _just_ happen to me 😂.)
 
-- Expose port, actually open the page in the browser
-- Put the app in a better spot
-- Add in package.json, npm install
-- Layers
-- Show incremental rebuilds by splitting out package.json copy and install
-- Demonstrate `RUN`
-  - `ENV`
-  - `ARG`
-  - `ENTRYPOINT`?
-  - `USER`
-  - `WORKDIR`
-- Build our own Node.js image
+## A Note on EXPOSE
+
+This was a point of confusion for me so I'm going to try to clear it up for you. There is an instruction called `EXPOSE <port number>` that its intended use is to expose ports from within the container to the host machine. However if we don't do the `-p 3000:3000` it still isn't exposed so in reality this instruction doesn't do much. You don't need `EXPOSE`.
+
+There are two caveats to that. The first is that it could be useful documentation to say that "I know this Node.js service listens on port 3000 and now anyone who reads this Docekrfile will know that too." I would challenge this that I don't think the Dockerfile is the best place for that documentation
+
+The second caveat is that instead of `-p 3000:3000` you can do `-P`. This will take all of the ports you exposed using `EXPOSE` and will map them to random ports on the host. You can see what ports it chose by using `docker ps`. It'll say something like `0.0.0.0:32769->3000/tcp` so you can see in this case it chose `32769`. Again, I'd prefer to be deliberate about which ports are being mapped.
+
+## Layers
+
+Go make any change to your Node.js app. Now re-run your build process. Docker is smart enough to see the your `FROM`, `RUN`, and `WORKDIR` instructions haven't changed and wouldn't change if you ran them again so it uses the same containers it cached from the previous but it can see that your `COPY` is different since files changed between last time and this time, so it begins the build process there and re-runs all instructinos after that. Pretty smart, right?
+
+So which part of container-building takes the longest? `RUN npm ci`. Anything that has to hit the network is going to take the longest without-a-doubt. The shame is that our `package.json` hasn't changed since the previous iteration; we just changed something in our `index.js`. So how we make it so we only re-run our `npm ci` when package.json changes? Break it into two `COPY` instructions!
+
+```Dockerfile
+FROM node:latest
+
+USER node
+
+RUN mkdir /home/node/code
+
+WORKDIR /home/node/code
+
+COPY package-lock.json package.json ./
+
+RUN npm ci
+
+COPY . .
+
+CMD ["node", "index.js"]
+```
+
+The first `COPY` pulls just the `package.json` and the `package-lock.json` which is just enough to do the `npm ci`. After that we nab the rest of the files. Now if you make changes you avoid doing a full npm install. This is useful and recommended for any dependency installation: apt-get, pip, cargo, gems, etc. as well as any long-running command like building some from source.
 
 [buildpack]: https://github.com/docker-library/buildpack-deps
 [debian]: https://hub.docker.com/_/debian/
