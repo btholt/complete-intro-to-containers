@@ -70,4 +70,6 @@ CMD ["nodemon", "index.js"]
 
 Now we can write our code and every time it save it'll restart the server from within the container. This will make this super productive to work with!
 
+While we're about to get to Kubernetes which will handle bigger deployment scenarios than Docker Compose can, you can use `docker-compose up --scale web=10` to scale up your web container to 10 concurrently running containers. This won't work at the moment because they're all trying to listen on the host on port 3000 but we could use something like NGINX or HAProxy to loadbalance amongst the containers. It's a bit more advance use case and less useful for Compose since at that point you should probably just use Kubernetes or something similar. We'll approach it in the Kubernetes chapter.
+
 [compose]: https://docs.docker.com/compose/compose-file/#compose-file-structure-and-examples
