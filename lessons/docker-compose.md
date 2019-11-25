@@ -29,7 +29,7 @@ services:
     environment:
       MONGO_CONNECTION_STRING: mongodb://db:27017
   db:
-    image: mongo
+    image: mongo:3
 ```
 
 This should feel familiar even if it's new to you. This is basically all of the CLI configurations we were giving to the two containers but captured in a YAML file. The version is which version of the Docker Compose YAML you're using. They do this so they can stay backwards compatible and still add new features. As of writing, v3 is the latest.
@@ -48,8 +48,6 @@ This will start and work now, just run `docker-compose up` and it'll get going. 
 
 ```dockerfile
 FROM node:latest
-
-RUN apt update && apt install mongodb-clients -y
 
 RUN npm i -g nodemon
 

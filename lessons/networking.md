@@ -20,7 +20,7 @@ xxxxxxxxxxxx        none                null                local
 
 The bridge network is the one that exists all the time and we could attach to it if we want to, but again Docker recommends against it so we'll create our own. There's also the host network which is the host computer itself's network. The last network with the `null` driver is one that you'd use if you wanted to use some other provider or if you wanted to do it manually yourself.
 
-Go ahead and run `docker network create --type bridge app-net`
+Go ahead and run `docker network create --driver=bridge app-net`
 
 Once you've done that, let's start a MongoDB server. Run `docker run -d --network=app-net -p 27017:27017 --name=db --rm mongo:3`. I'm having you run a specific version of MongoDB, v3, because I know the package to interact with it is already available on Ubuntu. Feel free to use v4+ if you know it's available. We also added a few flags. The `--name` flag allows us to refer specifically to that one running container, and even better it allows us to use that as its address on the network. We'll see that in a sec. The one other, since we're using `--name` is `--rm`. If we didn't use that, we'd have to run `docker rm db` before restarting our `db` cotainer since when it stops a container, it doesn't delete it and its logs and meta data until you tell it to. The `--rm` means toss all that stuff as soon as the container finishes and free up that name again.
 
@@ -41,7 +41,7 @@ const dbName = "dockerApp";
 const collectionName = "count";
 
 async function start() {
-  const client = await MongoClient.connect({});
+  const client = await MongoClient.connect(url);
   const db = client.db(dbName);
   const collection = db.collection(collectionName);
 
@@ -91,6 +91,7 @@ You could absolutely run this locally if you have MongoDB running on your host m
 So build the container and run it using the following commands:
 
 ```bash
+npm install mongodb@3.3 # you need to add mongodb to your project
 docker build --tag=my-app-with-mongo .
 docker run -p 3000:3000 --network=app-net --env MONGO_CONNECTION_STRING=mongodb://db:27017 my-app-with-mongo
 ```
