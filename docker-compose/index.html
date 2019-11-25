@@ -64,7 +64,7 @@
     <span class="token key atrule">environment</span><span class="token punctuation">:</span>
       <span class="token key atrule">MONGO_CONNECTION_STRING</span><span class="token punctuation">:</span> mongodb<span class="token punctuation">:</span>//db<span class="token punctuation">:</span><span class="token number">27017</span>
   <span class="token key atrule">db</span><span class="token punctuation">:</span>
-    <span class="token key atrule">image</span><span class="token punctuation">:</span> mongo</code></pre></div>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> mongo<span class="token punctuation">:</span><span class="token number">3</span></code></pre></div>
 <p>This should feel familiar even if it's new to you. This is basically all of the CLI configurations we were giving to the two containers but captured in a YAML file. The version is which version of the Docker Compose YAML you're using. They do this so they can stay backwards compatible and still add new features. As of writing, v3 is the latest.</p>
 <p>In <code class="language-text">service</code> we define the containers we need for this particular app. We have two: the <code class="language-text">web</code> container (which is our app) and the <code class="language-text">db</code> container which is MongoDB. We then identify where the Dockerfile is with <code class="language-text">build</code>, which ports to expose in <code class="language-text">ports</code>, which volumes to make in <code class="language-text">volumes</code> (here we're mounting in our code so that we can keep code without having to rebuild the image), and the <code class="language-text">environment</code> variables using that field.</p>
 <p>Notice the second <code class="language-text">volumes</code> entry. We do this so that the <code class="language-text">node_modules</code> from the original build container get mounted in, not the ones on your local host. We do this because it's important to have node<em>modules that built for the system they're running on. If you run <code class="language-text">npm install</code> on a Windows machine and then copy those to a Ubuntu machine, chances are that they'll break due to how `node</em>modules<code class="language-text">can build native depenencies. If you</code>npm install<code class="language-text">something on your app, you may be to stop the app and run</code>docker-compose build` again.</p>
@@ -73,8 +73,6 @@
 <p>There's a lot more to compose files than what I've shown you here but I'll let you explore that on your own time. <a href="https://docs.docker.com/compose/compose-file/#compose-file-structure-and-examples">Click here</a> to see the docs to see what else is possible.</p>
 <p>This will start and work now, just run <code class="language-text">docker-compose up</code> and it'll get going. I just want to do one thing: let's make our app even more productive to develop on. Go to your Dockerfile for the app make it read a such:</p>
 <div class="gatsby-highlight" data-language="dockerfile"><pre class="language-dockerfile"><code class="language-dockerfile"><span class="token keyword">FROM</span> node<span class="token punctuation">:</span>latest
-
-<span class="token keyword">RUN</span> apt update &amp;&amp; apt install mongodb<span class="token punctuation">-</span>clients <span class="token punctuation">-</span>y
 
 <span class="token keyword">RUN</span> npm i <span class="token punctuation">-</span>g nodemon
 
