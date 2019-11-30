@@ -29,7 +29,6 @@ My biggest passions in life are people and experiences. I hope by going through 
 Please catch up with me on social media, would love to chat:
 
 - [Twitter][twitter]
-- [Instagram][instagram]
 - [GitHub][github]
 - [LinkedIn][linkedin]
 
@@ -48,7 +47,6 @@ And hey, if you could take a second and [star the repo on GitHub][gh] I'd be sup
 [fehh]: http://frontendhappyhour.com/
 [fem]: https://frontendmasters.com/
 [twitter]: https://twitter.com/holtbt
-[instagram]: https://www.instagram.com/briantholt/
 [github]: https://github.com/btholt
 [linkedin]: https://www.linkedin.com/in/btholt/
 [course]: https://frontendmasters.com/courses/complete-containers/

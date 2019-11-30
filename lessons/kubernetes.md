@@ -1,7 +1,7 @@
 ---
 path: "/kubernetes"
-order: 11
-title: "Kubernetes, Swarm, Mesos, and Beyond"
+order: 12
+title: "Kubernetes"
 ---
 
 I like to tell people that containers are containers are the "simple" (simple is a relative term here) part and Kubernetes is the "hard" (hard isn't relative; Kubernetes is really hard) part. So if this feels hard, it's because it is.
@@ -83,7 +83,7 @@ We did all of this from a docker-compose.yml file but that's just to get you sta
 
 What's super fun is that kubectl is the same tool you'd use to control your production deployment. So everything you just learn would work against Azure, AWS, GCP, etc. All you have to do is change the context from minikube or docker-desktop to Azure, AWS, or GCP. I'm not going to do that but I'll drop the tutorials here so you can play around yourself. Do note these are often not free and if you're not careful, Kubernetes can get expensive!
 
-- [Azure AKS][azure]
+- [Azure AKS][aks]
 - [Amazon EKS][aws]
 - [Google GKE][gcp]
 

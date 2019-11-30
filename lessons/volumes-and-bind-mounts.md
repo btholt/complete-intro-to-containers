@@ -1,7 +1,7 @@
 ---
 title: "Volumes and Bind Mounts"
 path: "/volumes-and-bind-mounts"
-order: 6
+order: 8
 ---
 
 So far we've been dealing with self-contained containers. Normally this is all you ever want: containers that can spin up and spin down as frequently as they need to. They're ephemeral, temporary, and disposable. None of these containers are "snowflakes". When I say snowflakes, picture you're running a server that's serving a Wordpress site. Imagine setting up this server, SSH'ing into the server, and setting everything up to be just right and tuned to the exact way you need it. This would be a snowflake server: if someone goes and deletes this server, you're screwed. You have to go and spend a bunch of time re-setting up this server. This is exactly the sort of thing we're trying to avoid with containers. We want to make our servers easy to reproduce whenever we want so we can spin up and spin down servers at will.
@@ -32,8 +32,6 @@ This is how you do bind mounts. It's a bit verbose but necessary. Let's dissect 
 - As a side note, you can mount as many mounts as you care to, and you mix bind and volume mounts. NGINX has a default config that we're using but if we used another bind mount to mount an NGINX config to `/etc/nginx/nginx.conf` it would use that instead.
 
 Again, it's preferable to bake your own container so you don't have to ship the container and the code separately; you'd rather just ship one thing that you can run without much ritual nor ceremony. But this is a useful trick to have in your pocket.
-
-## TODO Hugo example?
 
 ## Volumes
 
@@ -77,7 +75,7 @@ Don't worry too much about the Node.js. It looks for a file `$DATA_PATH` if it e
 
 ```dockerfile
 FROM node:alpine
-COPY . /src
+COPY --chown=node:node . /src
 WORKDIR /src
 CMD ["node", "index.js"]
 ```

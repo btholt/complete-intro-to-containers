@@ -1,7 +1,7 @@
 ---
 title: "Static Assets Project"
 path: "/static-assets-project"
-order: 5
+order: 7
 ---
 
 We're going to do a project now! Free to attempt the project first and then follow along with me as I code the answer.

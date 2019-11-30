@@ -1,7 +1,7 @@
 ---
 path: "/what-are-containers"
 title: "What Are Containers?"
-order: 1
+order: 2
 ---
 
 Containers are probably simpler than you think they are. Before I took a deep dive into what they are, I was very intimidated by the concept of what containers were. I thought they were for one super-versed in Linux and sysadmin type activties. In reality, the core of what containers are is just a few features of the Linux kernel duct-taped together. Honestly, there's no single concept of a "container": it's just using a few features of Linux together to achieve isolation. That's it.

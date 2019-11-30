@@ -1,7 +1,7 @@
 ---
 title: "Going to Production"
 path: "/going-to-production"
-order: 4
+order: 6
 ---
 
 We've now built a nice little container for our Node.js app and we absolutely could ship it as-is to production. However there's a few things we can do to make things even faster, cheaper, and more secure.
@@ -23,11 +23,11 @@ RUN mkdir /home/node/code
 
 WORKDIR /home/node/code
 
-COPY package-lock.json package.json ./
+COPY --chown=node:node package-lock.json package.json ./
 
 RUN npm ci
 
-COPY . .
+COPY --chown=node:node . .
 
 CMD ["node", "index.js"]
 ```
@@ -85,11 +85,11 @@ RUN mkdir /home/node/code
 
 WORKDIR /home/node/code
 
-COPY package-lock.json package.json ./
+COPY --chown=node:node package-lock.json package.json ./
 
 RUN npm ci
 
-COPY . .
+COPY --chown=node:node . .
 
 CMD ["node", "index.js"]
 ```
@@ -117,7 +117,7 @@ RUN addgroup -S node && adduser -S node -G node
 USER node
 RUN mkdir /home/node/code
 WORKDIR /home/node/code
-COPY --from=0 /build .
+COPY --from=0 --chown=node:node /build .
 CMD ["node", "index.js"]
 ```
 

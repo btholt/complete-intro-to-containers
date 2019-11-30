@@ -1,10 +1,10 @@
 ---
 path: "/buildah-podman"
-order: 10
+order: 13
 title: "Non-Docker Containers: Buildah and Podman"
 ---
 
-**NOTE**: Both of these tools _only work in Linux_. If you're using Windows and WSL, this work seamlessly. If you're on macOS, this will not work. You could try to run this within [the Buildah container][buildah] off of Docker Hub. This container has both Buildah and Podman.
+**NOTE**: Both of these tools _only work in Linux_. If you're using Windows and WSL, this work seamlessly. If you're on macOS, this will not work. You could try to run this within [the Buildah container][buildah-container] off of Docker Hub. This container has both Buildah and Podman. This is what I'm going tod.
 
 ## Intro
 
@@ -20,9 +20,9 @@ There's a lot to these tools and they overlap quite a bit too. We're just going 
 
 ### Installation
 
-Follow [the instructions here][buildah-install] for your distro of Linux.
+Follow [the instructions here][buildah-install] for your distro of Linux (if you're not using the container, I will be except for one part at thend):
 
-Make sure you have a valid `/etc/containers/registries.conf`. If you don't have that file, put this there:
+This is for only if you're not using the Buildah container. Make sure you have a valid `/etc/containers/registries.conf`. If you don't have that file, put this there:
 
 ```
 # This is a system-wide configuration file used to
@@ -57,10 +57,12 @@ Lastly, make sure you have `runc` installed too. It should be available on every
 If you want to do it inside of Docker, run
 
 ```bash
-docker run --mount type=bind,source="$(pwd)",target=/src -it --privileged buildah/buildah sh
+docker run -it --rm -p 3000:3000 --privileged --mount type=bind,source="$(pwd)",target=/src  --mount type="volume",src=podman-data,target=/var/lib/containers tomkukral/buildah bash
 ```
 
 This will run the Buildah / Podman container with your current directory mounted in at `/src`. Do note that this in Alpine Linux and you'll be dropped in ash, not bash which does have some differences. Sorta fun though, right? Building containers inside of your containers. Also do note that we're running it as `--privileged` which means the container has elevated privileges. Use this only when you need to.
+
+We need a volume mount for where the built containers are going to be stored (both ones we build and ones we download from registries) and we need a bind mount for own code being mounted in. We're also exposing port 3000 because when we run the app inside the container (containers within containers) we'll tunnel that port through.
 
 ### Using Buildah
 
@@ -74,21 +76,29 @@ This accomplishes the same thing as `docker build`. It'll take a bit longer and 
 
 So to see our built container in Buildah (Buildah allows you to do some running of containers but most of that resides in Podman) run `buildah from my-app-buildah`. This will start a container running in the background (and not run the `CMD` in our Dockerfile.) From there, run `buildah run --net host my-app-buildah-working-container -- bash`. This will get us inside the container! You can try to run our project but it'll fail since we haven't connected MongoDB (and we're not going to right now.) Congrats! You built and ran a container without Docker! (again, since we already did it with lxc and lxd.)
 
+## Podman
+
+I'm going to do this inside of the [Buildah container][buildah-container] because this was quite difficult to set up outside of it. And in reality most of you will be doing this with Docker anyway so this is more of an academic exercise.
+
+After having build your container above with Buildah, run this:
+
+```bash
+podman run --cgroup-manager cgroupfs -p 3000:3000 localhost/my-app-buildah
+```
+
+This will start Podman managing an instance of your Buildah-built container! This by-default will run your container in the foreground, you can run it in the background with `-d` added.
+
 ### Run your Buildah container with Docker
+
+In order to do this part, you have to run this outside of a container.
 
 We need to first transfer our container out of Buildah and into Docker. We also need to be aware that there are two ways to package a container: Docker and OCI. If we tell Buildah to push to Docker, it'll fix that automatically but be aware you can also use OCI (Open Container Initiative) images as well.
 
 Just like you can push a container to Docker Hub, you can use the same mechanism within Buildah to push to a local Docker daemon (background process.) So ahead and run `buildah push localhost/my-app-buildah docker-daemon:my-app-buildah:latest`. This will move our app out Buildah and into Docker. Now if you run `docker run -it my-app-buildah bash` it should drop you into a running container. As a fun exercise, try to start the Node.js app and connect it to a running `mongo` container using the techniques we learned before. Now you have one container built using Docker connecting to a container built using Buildah. Pretty cool!
 
-## Podman
-
-So after some debate, we're not going to go over Podman. Podman as of right now doesn't work within the Window's Linux subsystem, works with a decent amount of difficulty on Ubuntu, Mac, Debian and the like, and actually works well just on Red Hat's flavors of Linux.
-
-The idea with Podman is it takes over running the containers and the various aspects of that `docker run` and ilk were doing for you. If you want to try it out, I recommend trying so on RHEL or Fedora. You can spin up a VM in the cloud and use VSCode Remote to SSH to it.
-
 [buildah]: https://buildah.io/
 [podman]: https://podman.io/
 [install-buildah]: https://github.com/containers/buildah/blob/master/install.md
 [oci]: https://www.opencontainers.org/
-[buildah]: https://hub.docker.com/r/buildah/buildah
+[buildah-container]: https://hub.docker.com/r/tomkukral/buildah
 [buildah-install]: https://github.com/containers/buildah/blob/master/install.md

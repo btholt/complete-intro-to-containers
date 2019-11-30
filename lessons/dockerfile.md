@@ -1,7 +1,7 @@
 ---
 title: "The Dockerfile"
 path: "/dockerfile"
-order: 3
+order: 5
 ---
 
 So far we've been focusing a lot on running containers and haven't much dug into building them. This is on purpose because most of benefit of containers for developers comes from the running of containers. If you learn one thing, it should be how to run them.
@@ -123,7 +123,7 @@ CMD ["node", "/home/node/code/index.js"]
 
 The `USER` instruction let's us switch from being the root user to a different user, one called "node" which the `node:latest` image has already made for us. We could make our own user too using bash commands but let's just use the one the node image gave us. (More or less you'd run `RUN useradd -ms /bin/bash lolcat` to add a lolcat user.)
 
-Notice we're now copying inside of the user's home directory. This is because they'll have proper permissions to interact with those files whereas they may not if we were outside of their home directory. You'll save yourself a lot of permission wrangling if you put it in a home directory.
+Notice we're now copying inside of the user's home directory. This is because they'll have proper permissions to interact with those files whereas they may not if we were outside of their home directory. You'll save yourself a lot of permission wrangling if you put it in a home directory. But we'll have to add a flag to the `COPY` command to make sure the user owns those files. We'll do that with `--chown=node:node` where the first `node` is the user and the second `node` is the user group.
 
 It's no big deall that the "code" directory doesn't exist, `COPY` will create it.
 
@@ -136,7 +136,7 @@ USER node
 
 WORKDIR /home/node/code
 
-COPY index.js .
+COPY --chown=node:node index.js .
 
 CMD ["node", "index.js"]
 ```
@@ -203,7 +203,7 @@ USER node
 
 WORKDIR /home/node/code
 
-COPY . .
+COPY --chown=node:node . .
 
 RUN npm ci
 
@@ -211,6 +211,12 @@ CMD ["node", "index.js"]
 ```
 
 We changed the `COPY` to copy everything in the directory. Right now you probably a `node_modules` but if you're building a container directly from a repo it won't copy the `node_modules` so we have to operate under the assumption that those won't be there. Feel free even to delete them if you want.
+
+Let's go ahead and add a `.dockerignore` file to the root of the project that prevents Docker from copying the `node_modules`. This has the same format as a `.gitignore`.
+
+```
+node_modules/
+```
 
 We then added a `RUN` instruction to run a command inside of the container. If you're not familiar with `npm ci` it's very similar to `npm install` with a few key differences: it'll follow the `package-lock.json` exactly (where `npm install` will ignore it and update it if newer patch versions of your dependencies are available) and it'll automatically delete `node_modules` if it exists. `npm ci` is made for situations like this.
 
@@ -225,7 +231,7 @@ RUN mkdir /home/node/code
 
 WORKDIR /home/node/code
 
-COPY . .
+COPY --chown=node:node . .
 
 RUN npm ci
 
@@ -259,11 +265,11 @@ RUN mkdir /home/node/code
 
 WORKDIR /home/node/code
 
-COPY package-lock.json package.json ./
+COPY --chown=node:node package-lock.json package.json ./
 
 RUN npm ci
 
-COPY . .
+COPY --chown=node:node . .
 
 CMD ["node", "index.js"]
 ```

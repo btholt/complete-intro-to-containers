@@ -1,6 +1,6 @@
 ---
 path: "/docker-compose"
-order: 9
+order: 11
 title: "Docker Compose"
 ---
 
