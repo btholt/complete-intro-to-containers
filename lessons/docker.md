@@ -1,7 +1,7 @@
 ---
 path: "/docker"
 title: "Intro to Docker"
-order: 4
+order: 3
 ---
 
 This is probably why you're here: Docker. Docker is a commandline tool that made creating, updating packaging, distributing, and running containers significantly easier which in turns allowed them become very popular with not just system administraters but the programming populace at large. At its heart, it's a command line very similar to `lxc` that allows you to manage your containers but in a much more convenient way. Let's dive into the core concepts of Docker.
@@ -24,19 +24,53 @@ First thing, let's go grab a container off of Docker Hub. Let's grab the latest 
 
 ### Docker Images without Docker
 
-# TODO TRY THIS AND FIX IT
-
 ```bash
-$ docker export node -o dockercontainer.tar
-$ mkdir rootfs
-$ tar xf dockercontainer.tar --ignore-command-error -C rootfs/
-$ unshare --mount --uts --ipc --net --pid --fork --user --map-root-user chroot $PWD/rootfs ash
-root:$ mount -t proc none /proc
-root:$ mount -t sysfs none /sys
-root:$ mount -t tmpfs none /tmp
+# start docker contanier with docker running in it connected to host docker daemon
+docker run -ti -v /var/run/docker.sock:/var/run/docker.sock --privileged --rm --name docker-host docker:18.06.1-ce
+
+# run stock alpine container
+docker run --rm -dit --name my-alpine alpine:3.10 sh
+
+# export running container's file system
+docker export my-alpine -o dockercontainer.tar
+
+# make container-root directory, export contents of container into it
+mkdir container-root
+tar xf dockercontainer.tar -C container-root/
+
+# make a long running process in the background to demonstrate separation of processes
+touch text.txt
+tail -f text.txt &
+ps aux # notice the tail process running
+
+# make a contained user, mount in name spaces
+unshare --mount --uts --ipc --net --pid --fork --user --map-root-user chroot $PWD/container-root ash # this also does chroot for us
+mount -t proc none /proc
+mount -t sysfs none /sys
+mount -t tmpfs none /tmp
+ps aux # notice no tail running, different pids
+pwd # you're in the root directory
+ls # you can't see text.txt
+exit
+ps aux # notice tail is running now, we're back in the base container
+ls # now you can see text.txt
+
+######### NEW TERMINAL
+# attach a new session to the docker host container
+docker exec -it docker-host sh
+ps aux # notice you can see the tail call and the unshare call
+kill <PID of unshare> # if you want to, you can mess with the unshare call from the host but not vice versa
+exit
+######### END NEW TERMINAL
+
+# clean up after
+exit
+docker kill my-alpine
 ```
 
 So, this isn't totally it. Docker does a lot more for you than just this like networking, volumes, and other things but suffice to say this core of what Docker is doing for you: creating a new environment that's isolated by namespace and limited by cgroups and chroot'ing you into it. So why did we go through all this ceremony? Well, it's because I want you to understand what Docker is doing for you, know that you _could_ do it by hand but since there's a tool that does for you you don't want to. I hold a strong personal belief that tools people need to understand their tools and what they do for them. Every tool you add to your environment adds complexity but should also add ease. If you don't understand the complexity the tool is solving, you resent it and don't get to fully appreciate nor take advantage of what the tool can fully offer.
+
+Note we're _not_ doing cgroups here. But you get the idea of where to go from here. You'd have to install [`cgmanager`][cgmanager]
 
 So how often will you do what we just did? Never. 99% of container-utilizers have no idea this is what's happening under the hood. But now that you know it will make you embrace the complexity that Docker adds because you can see why you have it.
 
@@ -45,15 +79,21 @@ So how often will you do what we just did? Never. 99% of container-utilizers hav
 So it's much easier to do what we did with Docker. Run this command:
 
 ```bash
-docker run --interactive --tty run ubuntu # or, to be shorter: docker run -it ubuntu
+docker run --interactive --tty run alpine:3.10 # or, to be shorter: docker run -it alpine:3.10
 ```
 
-A bit easier to remember, right? This will drop you into a Ubuntu bash shell inside of a container as the root user of that container. When you're done, just run `exit` or hit CTRL+D. Notice that this will grab the [ubuntu][ubuntu] image from Docker for you and run it. The `run` part of the command is telling Docker you're going to be executing a container (as opposed to building it.) The `-it` part says you want to be dropped into the container interactively so you can run commands and inspect the container. By default containers run and then exit as soon as they're done. Go ahead and try `docker run ubuntu`. It'll look it did nothing but it actually starts the container and then, because it has nothing defined for it to do, it just exits.
+A bit easier to remember, right? This will drop you into a Alpine ash shell inside of a container as the root user of that container. When you're done, just run `exit` or hit CTRL+D. Notice that this will grab the [alpine][alpine] image from Docker for you and run it. The `run` part of the command is telling Docker you're going to be executing a container (as opposed to building it.) The `-it` part says you want to be dropped into the container interactively so you can run commands and inspect the container. By default containers run and then exit as soon as they're done. Go ahead and try `docker run alpine:3.10`. It'll look it did nothing but it actually starts the container and then, because it has nothing defined for it to do, it just exits.
 
 So what if you wanted it to execute something? Try this:
 
 ```bash
-docker run ubuntu ls
+docker run alpine:3.10 ls
+```
+
+Or let's switch to Ubuntu now, since it's more familiar to most. We'll talk about Alpine later on in-depth.
+
+```bash
+docker run ubuntu:bionic ls
 ```
 
 The `ls` part at the end is what you pass into the container to be run. As you can see here, it executes the command, outputs the results, and shuts down the container. This is great for running a Node.js server. Since it doesn't exit, it'll keep running until the server crashes or the server exits itself.
@@ -61,7 +101,7 @@ The `ls` part at the end is what you pass into the container to be run. As you c
 So now what if we want to detach the container running from the foreground? Let's try that.
 
 ```bash
-docker run --detach -it ubuntu # or, to be shorter: docker run -dit ubuntu
+docker run --detach -it ubuntu:bionic # or, to be shorter: docker run -dit ubuntu:bionic
 ```
 
 So it prints a long hash out and then nothing. Oh no! What happened to it!? Well, it's running in the background. So how do we get ahold of it?
@@ -76,7 +116,7 @@ This will print out all the running containers that Docker is managing for you. 
 docker attach <ID or name> # e.g. `docker attach 20919c49d6e5` would attach to that container
 ```
 
-This allows you to attach a shell to a running container and mess around with it. Useful if you need to inspect something or see running logs. Feel free to type `exit` to get out of here. Run `docker run -dit ubuntu` one more time. Let's kill this container without attaching to it. Run `docker ps`, get the IDs or names of the containers you want to kill and say:
+This allows you to attach a shell to a running container and mess around with it. Useful if you need to inspect something or see running logs. Feel free to type `exit` to get out of here. Run `docker run -dit ubuntu:bionic` one more time. Let's kill this container without attaching to it. Run `docker ps`, get the IDs or names of the containers you want to kill and say:
 
 ```bash
 docker kill <IDs or names of containers> # e.g. `docker kill fae0f0974d3d 803e1721dad3 20919c49d6e5` would kill those three containers
@@ -90,16 +130,40 @@ docker kill $(docker ps -q)
 
 The `$()` portion of that will evaluate whatever is inside of that first and plug its output into the second command. In this case, `docker ps -q` returns all the IDs and nothing else. These are then passed to `docker kill` which will kill all those IDs. Neat!
 
+## --name and --rm
+
+Let's make it a bit easier to keep track of these. Try this
+
+```bash
+docker run -dit --name my-ubuntu ubuntu:bionic
+docker kill my-ubuntu
+```
+
+Now you can refer to these by a name you set. But now if you tried it again, it'd say that `my-ubuntu` exists. If you run `docker ps --all` you'll see that the container exists even if it's been stopped. That's because Docker keeps this metadata around until you tell it to stop doing that. You can run `docker rm my-ubuntu` which will free up that name or you can run `docker container prune` to free up all existing stopped containers (and free up some disk space.)
+
+In the future you can just do
+
+```bash
+docker run --rm -dit --name my-ubuntu ubuntu:bionic
+docker kill my-ubuntu
+```
+
+This will automatically clean up the container when it's done.
+
+## Node.js on Containers
+
 So now what if we wanted to run a container that Node in it? The default Ubuntu container doesn't have Node.js installed. Let's use a different container!
 
 ```
-docker run -it node
+docker run -it node:12-stretch
 ```
+
+The version here is we're using is Node.js version 12 and Stretch refers to the version of Debian (which is what the Node.js uses by default.)
 
 Notice this drops us into the Node.js REPL which may or may not be what you want. What if we wanted to be dropped into bash of that container? Easy! You already know how!
 
 ```bash
-docker run -it node bash
+docker run -it node:12-stretch bash
 ```
 
 Remember, after we identify the container ([node][node]), anything we put after get's evaluated instead of the default command identified by the container (in the container `node`'s case, it runs the command `node` by default). This allows us to run whatever command we want! In this case, we're exectuing `bash` which puts us directly into a bash shell.
@@ -107,15 +171,15 @@ Remember, after we identify the container ([node][node]), anything we put after 
 So what flavor of Linux is the `node` image running? Honestly, I didn't even remember when I was writing this. But it's easy to find out! There's a file on every\* Linux OS that has in it what sort of Linux it's running. If we run `cat /etc/issue` it'll show us what sort of Linux it is. `cat` is a way to output a file's contents to the terminal. Try running the two commands
 
 ```bash
-docker run ubuntu cat /etc/issue # hopefully this shouldn't surprise you
-docker run node cat /etc/issue # ????
+docker run ubuntu:bionic cat /etc/issue # hopefully this shouldn't surprise you
+docker run node:12-stretch cat /etc/issue # ????
 ```
 
 We'll get into later how to select which Linux distros you should use but for now this is just a fun exercise.
 
 ## Tags
 
-So far we've just been running containers with no tags which is implicitly using the `latest` tag. When you say `docker run -it node`, it's the same as saying `docker run -it node:latest`. The `:latest` is the tag. This allows you to run different versions of the same container, just like you can install React version 15 or React version 16: some times you don't want the latest. Let's say you have a legacy application at your job and it depends on running on Node.js 8 (update your app, Node.js is already past end-of-life) then you can say
+So far we've just been running containers with random tags that I chose. If you run `docker run -it node` the tag implicitly is using the `latest` tag. When you say `docker run -it node`, it's the same as saying `docker run -it node:latest`. The `:latest` is the tag. This allows you to run different versions of the same container, just like you can install React version 15 or React version 16: some times you don't want the latest. Let's say you have a legacy application at your job and it depends on running on Node.js 8 (update your app, Node.js is already past end-of-life) then you can say
 
 ```bash
 docker run -it node:8 bash
@@ -240,8 +304,10 @@ docker search node # see all the various flavors of Node.js containers you can r
 ```
 
 [ubuntu]: https://hub.docker.com/_/ubuntu
+[alpine]: https://hub.docker.com/_/alpine
 [node]: https://hub.docker.com/_/node/
 [desktop]: https://www.docker.com/products/docker-desktop
 [hub]: https://hub.docker.com/search?q=&type=image
 [alpine]: https://www.alpinelinux.org/
 [daemon]: https://en.wikipedia.org/wiki/Daemon_(computing)
+[cgmanager]: https://linuxcontainers.org/cgmanager/

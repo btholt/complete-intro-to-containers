@@ -1,7 +1,7 @@
 ---
 title: "Going to Production"
 path: "/going-to-production"
-order: 6
+order: 5
 ---
 
 We've now built a nice little container for our Node.js app and we absolutely could ship it as-is to production. However there's a few things we can do to make things even faster, cheaper, and more secure.

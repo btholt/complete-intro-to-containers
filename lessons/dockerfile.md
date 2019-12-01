@@ -1,7 +1,7 @@
 ---
 title: "The Dockerfile"
 path: "/dockerfile"
-order: 5
+order: 4
 ---
 
 So far we've been focusing a lot on running containers and haven't much dug into building them. This is on purpose because most of benefit of containers for developers comes from the running of containers. If you learn one thing, it should be how to run them.

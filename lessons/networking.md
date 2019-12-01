@@ -1,6 +1,6 @@
 ---
 title: "Networking with Docker"
-order: 10
+order: 9
 path: "/networking"
 ---
 

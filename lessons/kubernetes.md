@@ -1,6 +1,6 @@
 ---
 path: "/kubernetes"
-order: 12
+order: 11
 title: "Kubernetes"
 ---
 
