@@ -62,42 +62,20 @@ docker run -ti -v /var/run/docker.sock:/var/run/docker.sock --privileged --rm --
 docker run --rm -dit --name my-alpine alpine:3.10 <span class="token function">sh</span>
 
 <span class="token comment"># export running container's file system</span>
-docker <span class="token builtin class-name">export</span> my-alpine -o dockercontainer.tar
+docker <span class="token builtin class-name">export</span> -o dockercontainer.tar my-alpine
 
 <span class="token comment"># make container-root directory, export contents of container into it</span>
 <span class="token function">mkdir</span> container-root
 <span class="token function">tar</span> xf dockercontainer.tar -C container-root/
-
-<span class="token comment"># make a long running process in the background to demonstrate separation of processes</span>
-<span class="token function">touch</span> text.txt
-<span class="token function">tail</span> -f text.txt <span class="token operator">&amp;</span>
-<span class="token function">ps</span> aux <span class="token comment"># notice the tail process running</span>
 
 <span class="token comment"># make a contained user, mount in name spaces</span>
 unshare --mount --uts --ipc --net --pid --fork --user --map-root-user <span class="token function">chroot</span> <span class="token environment constant">$PWD</span>/container-root ash <span class="token comment"># this also does chroot for us</span>
 <span class="token function">mount</span> -t proc none /proc
 <span class="token function">mount</span> -t sysfs none /sys
 <span class="token function">mount</span> -t tmpfs none /tmp
-<span class="token function">ps</span> aux <span class="token comment"># notice no tail running, different pids</span>
-<span class="token builtin class-name">pwd</span> <span class="token comment"># you're in the root directory</span>
-<span class="token function">ls</span> <span class="token comment"># you can't see text.txt</span>
-<span class="token builtin class-name">exit</span>
-<span class="token function">ps</span> aux <span class="token comment"># notice tail is running now, we're back in the base container</span>
-<span class="token function">ls</span> <span class="token comment"># now you can see text.txt</span>
 
-<span class="token comment">######### NEW TERMINAL</span>
-<span class="token comment"># attach a new session to the docker host container</span>
-docker <span class="token builtin class-name">exec</span> -it docker-host <span class="token function">sh</span>
-<span class="token function">ps</span> aux <span class="token comment"># notice you can see the tail call and the unshare call</span>
-<span class="token function">kill</span> <span class="token operator">&lt;</span>PID of unshare<span class="token operator">></span> <span class="token comment"># if you want to, you can mess with the unshare call from the host but not vice versa</span>
-<span class="token builtin class-name">exit</span>
-<span class="token comment">######### END NEW TERMINAL</span>
-
-<span class="token comment"># clean up after</span>
-<span class="token builtin class-name">exit</span>
-docker <span class="token function">kill</span> my-alpine</code></pre></div>
+<span class="token comment"># here's where you'd do all the cgroup rules making with the settings you wanted to</span></code></pre></div>
 <p>So, this isn't totally it. Docker does a lot more for you than just this like networking, volumes, and other things but suffice to say this core of what Docker is doing for you: creating a new environment that's isolated by namespace and limited by cgroups and chroot'ing you into it. So why did we go through all this ceremony? Well, it's because I want you to understand what Docker is doing for you, know that you <em>could</em> do it by hand but since there's a tool that does for you you don't want to. I hold a strong personal belief that tools people need to understand their tools and what they do for them. Every tool you add to your environment adds complexity but should also add ease. If you don't understand the complexity the tool is solving, you resent it and don't get to fully appreciate nor take advantage of what the tool can fully offer.</p>
-<p>Note we're <em>not</em> doing cgroups here. But you get the idea of where to go from here. You'd have to install <a href="https://linuxcontainers.org/cgmanager/"><code class="language-text">cgmanager</code></a></p>
 <p>So how often will you do what we just did? Never. 99% of container-utilizers have no idea this is what's happening under the hood. But now that you know it will make you embrace the complexity that Docker adds because you can see why you have it.</p>
 <h3 id="docker-images-with-docker"><a href="#docker-images-with-docker" aria-label="docker images with docker permalink" class="anchor"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Docker Images with Docker</h3>
 <p>So it's much easier to do what we did with Docker. Run this command:</p>
