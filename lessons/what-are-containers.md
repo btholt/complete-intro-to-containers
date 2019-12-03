@@ -54,7 +54,7 @@ So now that we've been through why we need containers, let's go through the thre
 
 I've heard people call this "cha-root" and "change root". I'm going to stick to "change root" because I feel less ridiculous saying that. It's a Linux command that allows you to set the root directory of a new process. In our container use case, we just set the root directory to be where-ever the new container's new root directory should be. And now the new container group of processes can't see anything outside of it, eliminating our security problem because the new process has no visibility outside of its new root.
 
-Let's try it. Start up a Ubuntu VM however you feel most comfortable. I'll be using Docker (and doing containers within containers 🤯). If you're like me, run `docker run -it ubuntu:latest`. This will download the [official Ubuntu container][ubuntu] from Docker Hub and grab the version marked with the _latest_ tag. In this case, _latest_ means it's the latest stable release (18.04.) You could put `ubuntu:devel` to get the latest development of Ubuntu (as of writing that'd be 19.10). `docker run` means we're going to run some commands in the container, and the `-it` means we want to make the shell interactive (so we can use it like a normal terminal.)
+Let's try it. Start up a Ubuntu VM however you feel most comfortable. I'll be using Docker (and doing containers within containers 🤯). If you're like me, run `docker run -it --name docker-host --rm --privileged ubuntu:bionic`. This will download the [official Ubuntu container][ubuntu] from Docker Hub and grab the version marked with the _bionic_ tag. In this case, _latest_ means it's the latest stable release (18.04.) You could put `ubuntu:devel` to get the latest development of Ubuntu (as of writing that'd be 19.10). `docker run` means we're going to run some commands in the container, and the `-it` means we want to make the shell interactive (so we can use it like a normal terminal.)
 
 If you're in Windows and using WSL, just open a new WSL terminal in Ubuntu. ✌️
 
@@ -62,15 +62,15 @@ To see what version of Ubuntu you're using, run `cat /etc/issue/`. `cat` reads a
 
 Okay, so let's attempt to use `chroot` right now.
 
-1. Make a new folder in your home directory via `mkdir my-new-root`.
-1. Inside that new folder, run `echo "my super secret thing" >> secret.txt`.
-1. Now try to run `chroot my-new-root bash` and see the error it gives you.
+1. Make a new folder in your home directory via `mkdir /my-new-root`.
+1. Inside that new folder, run `echo "my super secret thing" >> /my-new-root/secret.txt`.
+1. Now try to run `chroot /my-new-root bash` and see the error it gives you.
 
-You should see something about failing to run a shell. That's because bash is a program and your new root wouldn't have bash to run (because it can't reach outside of its new root.) So let's fix that! Run:
+You should see something about failing to run a shell or not being to find bash. That's because bash is a program and your new root wouldn't have bash to run (because it can't reach outside of its new root.) So let's fix that! Run:
 
-1. `mkdir my-new-root/bin`
-1. `cp /bin/bash /bin/ls my-new-root/bin/`
-1. `chroot my-new-root bash`
+1. `mkdir /my-new-root/bin`
+1. `cp /bin/bash /bin/ls /my-new-root/bin/`
+1. `chroot /my-new-root bash`
 
 Still not working! The problem is that these commands rely on libraries to power them and we didn't bring those with us. So let's do that too. Run `ldd /bin/bash`. This print out something like this:
 
@@ -85,14 +85,17 @@ $ ldd /bin/bash
 
 These are the libraries we need for bash. Let's go ahead and copy those into our new environment.
 
-1. `mkdir my-new-root/lib my-new-root/lib64` or you can do `my-new-root/lib{,64}` if you want to be fancy
+1. `mkdir /my-new-root/lib /my-new-root/lib64` or you can do `/my-new-root/lib{,64}` if you want to be fancy
 1. Then we need to copy all those paths (ignore the lines that don't have paths) into our directory. Make sure you get the right files in the right directory. In my case above (yours likely will be different) it'd be two commands:
-   1. `cp /lib/x86_64-linux-gnu/libtinfo.so.5 /lib/x86_64-linux-gnu/libdl.so.2 /lib/x86_64-linux-gnu/libc.so.6 lib`
-   1. `cp /lib64/ld-linux-x86-64.so.2 lib64`
+   1. `cp /lib/x86_64-linux-gnu/libtinfo.so.5 /lib/x86_64-linux-gnu/libdl.so.2 /lib/x86_64-linux-gnu/libc.so.6 /my-new-root/lib`
+   1. `cp /lib64/ld-linux-x86-64.so.2 /my-new-root/lib64`
 1. Do it again for `ls`. Run `ldd /bin/ls`
 1. Follow the same process to copy the libraries for `ls` into our `my-new-root`.
+   1. `cp /lib/x86_64-linux-gnu/libselinux.so.1 /lib/x86_64-linux-gnu/libpcre.so.3 /lib/x86_64-linux-gnu/libpthread.so.0 /my-new-root/lib`
 
-Now, finally, run `chroot my-new-root bash` and run `ls`. You should successfully see everything in the directory. Now try `pwd` to see your working directory. You should see `/`. You can't get out of here! This, before being called containers, was called a jail for this reason. At any time, hit CTRL+D or run `exit` to get out of your chrooted environment.
+Now, finally, run `chroot /my-new-root bash` and run `ls`. You should successfully see everything in the directory. Now try `pwd` to see your working directory. You should see `/`. You can't get out of here! This, before being called containers, was called a jail for this reason. At any time, hit CTRL+D or run `exit` to get out of your chrooted environment.
+
+## cat exercise
 
 Now try running `cat secret.txt`. Oh no! Your new chroot-ed environment doesn't know how to cat! As an exercise, go make `cat` work the same way we did above!
 
@@ -110,15 +113,48 @@ Enter namespaces. Namespaces allow you to hide processes from other processes. I
 
 There's a lot more depth to namespaces beyond what I've outlined here. The above is describing _just_ the UTS (or UNIX Timesharing) namespace. There are more namespaces as well and this will help these containers stay isloated from each other.
 
-# TODO Show how to exploit a chroot'd environment
+## The problem with chroot alone
+
+Now, this isn't secure. The only thing we've protected is the file system, mostly.
+
+1. chroot in a terminal into our environment
+1. In another terminal, run `docker exec -it docker-host bash`. This will get another terminal session #2 for us (I'll refer to the chroot'd environment as #1)
+1. Run `tail -f /my-new-root/secret.txt &` in #2. This will start an infinitely running process in the background.
+1. Run `ps` to see the process list in #2 and see the `tail` process running. Copy the PID (process ID) for the tail process.
+1. In #1, the chroot'd shell, run `kill <PID you just copied>`. This will kill the tail process from inside the `chroot'd` environment. This is a problem because that means chroot isn't enough to isolate someone. We need more barriers. This is just one problem, processes, but it's illustrative that we need more isolation beyond just the file system.
+
+## Safety with namespaces
+
+## TODO - get ubuntu running via export
 
 So let's create a chroot'd environment now that's isolated using namespaces using a new command: `unshare`. `unshare` creates a new isolated namespace from its parent (so you, the server provider can't spy on Bob nor Alice either) and all other future tenants. Run this:
 
+**NOTE**: This next command downloads about 150MB and takes at least a minute to run.
+
 ```bash
-unshare --mount --uts --ipc --net --pid --fork --user --map-root-user chroot $PWD/rootfs bash
+exit # from our chroot'd environment if you're still running it, if not skip this
+
+# install debootstrap
+apt-get update -y
+apt-get install debootstrap -y
+debootstrap --variant=minbase bionic /better-root
+
+# head into the new namespace'd, chroot'd environment
+unshare --mount --uts --ipc --net --pid --fork --user --map-root-user chroot /better-root bash # this also chroot's for us
+mount -t proc none /proc # process namespace
+mount -t sysfs none /sys # filesystem
+mount -t tmpfs none /tmp # filesystem
 ```
 
 This will create a new environment that's isolated on the system with its own PIDs, mounts (like storage and volumes), and network stack. Now we can't see any of the processes!
+
+Now try our previous exercise again.
+
+1. Run `tail -f /my-new-root/secret.txt &` from #2 (not the unshare env)
+1. Run `ps` from #1, grab pid for `tail`
+1. Run `kill <pid for tail>`, see that it doesn't work
+
+We used namespaces to protect our processes! We could explore the other namespaces but know it's a similar exercise: using namespaces to restrict capabilities of containers to interfering with other containers (both for nefarious purposes and to protect ourselves from ourselves.)
 
 ## cgroups
 
@@ -136,28 +172,47 @@ Enter the hero of this story: cgroups, or control groups. Google saw this same p
 
 This is a bit more difficult to accomplish but let's go ahead and give it a shot.
 
-# TODO Clean up demo. Make it make a cgroup'd, chroot'd, unshare'd
-
 ```bash
+# outside of unshare'd environment get the tools we'll need here
+apt-get install -y cgroup-tools htop
+
 # create new cgroups
 cgcreate -g cpu,memory,blkio,devices,freezer:/sandbox
 
-# list tasks associated to the sandbox cpu group:
+# add our unshare'd env to our cgroup
+ps aux # grab the bash PID that's right after the unshare one
+cgclassify -g cpu,memory,blkio,devices,freezer:sandbox <PID>
+
+# list tasks associated to the sandbox cpu group, we should see the above PID
 cat /sys/fs/cgroup/cpu/sandbox/tasks
-# show the cpu share of the sandbox cpu group:
+
+# show the cpu share of the sandbox cpu group, this is the number that determines priority between competing resources, higher is is higher priority
 cat /sys/fs/cgroup/cpu/sandbox/cpu.shares
-# kill all of sandbox's processes
-kill -9 $(cat /sys/fs/cgroup/cpu/sandbox/tasks)
 
-# Limit usage at 10% for a multi core system
-cgset -r cpu.cfs_period_us=100000 \
-     -r cpu.cfs_quota_us=$[ 10000 * $(getconf _NPROCESSORS_ONLN) ] \
-           sandbox
+# kill all of sandbox's processes if you need it
+# kill -9 $(cat /sys/fs/cgroup/cpu/sandbox/tasks)
 
-# Set a limit of 2Gb
-cgset -r memory.limit_in_bytes=2G sandbox
+# Limit usage at 5% for a multi core system
+cgset -r cpu.cfs_period_us=100000 -r cpu.cfs_quota_us=$[ 5000 * $(getconf _NPROCESSORS_ONLN) ] sandbox
+
+# Set a limit of 80M
+cgset -r memory.limit_in_bytes=80M sandbox
 # Get memory stats used by the cgroup
 cgget -r memory.stat sandbox
+
+# in terminal session #2, outside of the unshare'd env
+htop # will allow us to see resources being used with a nice visualizer
+
+# in terminal session #1, inside unshared'd env
+yes > /dev/null # this will instantly consume one core's worth of CPU power
+# notice it's only taking 5% of the CPU, like we set
+# if you want, run the docker exec from above to get a third session to see the above command take 100% of the available resources
+# CTRL+C stops the above any time
+
+# in terminal session #1, inside unshare'd env
+yes | tr \\n x | head -c 1048576000 | grep n # this will ramp up to consume ~1GB of RAM
+# notice in htop it'll keep the memory closer to 80MB due to our cgroup
+# as above, connect with a third terminal to see it work outside of a cgroup
 ```
 
 And now we can call this a container. Using these features together, we allow Bob, Alice, and Eve to run whatever code they want and the only people they can mess with is themselves.

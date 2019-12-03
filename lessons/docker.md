@@ -32,45 +32,22 @@ docker run -ti -v /var/run/docker.sock:/var/run/docker.sock --privileged --rm --
 docker run --rm -dit --name my-alpine alpine:3.10 sh
 
 # export running container's file system
-docker export my-alpine -o dockercontainer.tar
+docker export -o dockercontainer.tar my-alpine
 
 # make container-root directory, export contents of container into it
 mkdir container-root
 tar xf dockercontainer.tar -C container-root/
-
-# make a long running process in the background to demonstrate separation of processes
-touch text.txt
-tail -f text.txt &
-ps aux # notice the tail process running
 
 # make a contained user, mount in name spaces
 unshare --mount --uts --ipc --net --pid --fork --user --map-root-user chroot $PWD/container-root ash # this also does chroot for us
 mount -t proc none /proc
 mount -t sysfs none /sys
 mount -t tmpfs none /tmp
-ps aux # notice no tail running, different pids
-pwd # you're in the root directory
-ls # you can't see text.txt
-exit
-ps aux # notice tail is running now, we're back in the base container
-ls # now you can see text.txt
 
-######### NEW TERMINAL
-# attach a new session to the docker host container
-docker exec -it docker-host sh
-ps aux # notice you can see the tail call and the unshare call
-kill <PID of unshare> # if you want to, you can mess with the unshare call from the host but not vice versa
-exit
-######### END NEW TERMINAL
-
-# clean up after
-exit
-docker kill my-alpine
+# here's where you'd do all the cgroup rules making with the settings you wanted to
 ```
 
 So, this isn't totally it. Docker does a lot more for you than just this like networking, volumes, and other things but suffice to say this core of what Docker is doing for you: creating a new environment that's isolated by namespace and limited by cgroups and chroot'ing you into it. So why did we go through all this ceremony? Well, it's because I want you to understand what Docker is doing for you, know that you _could_ do it by hand but since there's a tool that does for you you don't want to. I hold a strong personal belief that tools people need to understand their tools and what they do for them. Every tool you add to your environment adds complexity but should also add ease. If you don't understand the complexity the tool is solving, you resent it and don't get to fully appreciate nor take advantage of what the tool can fully offer.
-
-Note we're _not_ doing cgroups here. But you get the idea of where to go from here. You'd have to install [`cgmanager`][cgmanager]
 
 So how often will you do what we just did? Never. 99% of container-utilizers have no idea this is what's happening under the hood. But now that you know it will make you embrace the complexity that Docker adds because you can see why you have it.
 
