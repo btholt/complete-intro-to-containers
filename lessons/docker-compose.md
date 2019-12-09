@@ -2,6 +2,7 @@
 path: "/docker-compose"
 order: 10
 title: "Docker Compose"
+section: "Multi Container Projects"
 ---
 
 This may be one of the most features you learn about Docker. We've been mixing various different facets of deploying your app to production and creating development environments. This feature in particular is geared much more for development environments. Many times when you're developing containers you're not in just a single container environment (though that does happen too.) When this happens, you need to coordinate multiple containers when you're doing local dev and you've seen in the previous chapter, networking, that it's possible if a bit annoying.

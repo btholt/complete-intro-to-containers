@@ -2,6 +2,7 @@
 path: "/kubernetes"
 order: 11
 title: "Kubernetes"
+section: "Multi Container Projects"
 ---
 
 I like to tell people that containers are containers are the "simple" (simple is a relative term here) part and Kubernetes is the "hard" (hard isn't relative; Kubernetes is really hard) part. So if this feels hard, it's because it is.

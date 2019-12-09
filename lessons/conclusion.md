@@ -2,6 +2,7 @@
 path: "/conclusion"
 order: 13
 title: "Conclusion"
+section: "Wrapping Up"
 ---
 
 ## What you learned

@@ -2,6 +2,7 @@
 title: "Networking with Docker"
 order: 9
 path: "/networking"
+section: "Features in Docker"
 ---
 
 This is not going to be a deep dive into how networking works. Networking is a deep, deep pool of knowledge and merits entire courses to understand. Just worrying about networking is some people's jobs due to the immense surface area of the subject. Instead, I want to just peek under the covers of how to do manual networking with Docker so you can understand what Docker Compose and Kubernetes do for you.

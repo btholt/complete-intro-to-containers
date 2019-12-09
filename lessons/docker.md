@@ -2,6 +2,7 @@
 path: "/docker"
 title: "Intro to Docker"
 order: 3
+section: "Containers"
 ---
 
 This is probably why you're here: Docker. Docker is a commandline tool that made creating, updating packaging, distributing, and running containers significantly easier which in turns allowed them become very popular with not just system administraters but the programming populace at large. At its heart, it's a command line very similar to `lxc` that allows you to manage your containers but in a much more convenient way. Let's dive into the core concepts of Docker.

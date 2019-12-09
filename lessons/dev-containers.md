@@ -2,6 +2,7 @@
 order: 8
 path: "/dev-containers"
 title: "Using Containers for your Dev Environment"
+section: "Features in Docker"
 ---
 
 So far we've talking about taking an app and using containers to prepare the apps to run. This is an obvious use case for them and one you're going to use a lot. But let's talk about a different use case for them: building development environments for your apps.

@@ -2,6 +2,7 @@
 path: "/intro"
 title: "Introduction"
 order: 1
+section: "Welcome"
 ---
 
 ## Course Objective

@@ -2,6 +2,7 @@
 title: "Volumes and Bind Mounts"
 path: "/volumes-and-bind-mounts"
 order: 7
+section: "Features in Docker"
 ---
 
 So far we've been dealing with self-contained containers. Normally this is all you ever want: containers that can spin up and spin down as frequently as they need to. They're ephemeral, temporary, and disposable. None of these containers are "snowflakes". When I say snowflakes, picture you're running a server that's serving a Wordpress site. Imagine setting up this server, SSH'ing into the server, and setting everything up to be just right and tuned to the exact way you need it. This would be a snowflake server: if someone goes and deletes this server, you're screwed. You have to go and spend a bunch of time re-setting up this server. This is exactly the sort of thing we're trying to avoid with containers. We want to make our servers easy to reproduce whenever we want so we can spin up and spin down servers at will.
