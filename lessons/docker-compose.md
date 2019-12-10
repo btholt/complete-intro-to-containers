@@ -1,6 +1,6 @@
 ---
 path: "/docker-compose"
-order: 10
+order: 7.0
 title: "Docker Compose"
 section: "Multi Container Projects"
 ---

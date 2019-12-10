@@ -1,6 +1,6 @@
 ---
 title: "Networking with Docker"
-order: 9
+order: 6.4
 path: "/networking"
 section: "Features in Docker"
 ---

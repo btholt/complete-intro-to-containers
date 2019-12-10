@@ -1,15 +1,15 @@
 ---
-title: "Going to Production"
-path: "/going-to-production"
-order: 5
-section: "Containers"
+title: "Alpine Linux"
+path: "/alpine-linux"
+order: 5.0
+section: "Making Tiny Containers"
 ---
 
 We've now built a nice little container for our Node.js app and we absolutely could ship it as-is to production. However there's a few things we can do to make things even faster, cheaper, and more secure.
 
 ## Making your containers smaller
 
-Making your containers smaller is a good thing for a few reasons. For one, everything tends to get a bit cheaper. Moving containers across the Internet takes time and bits to do. If you can make those containers smaller, things will go faster and you'll require less space on your servers. Often private container registries (like personal Docker Hubs, Azure Container Registry is a good example) often charge you by how much storage you're using.
+Making your containers smaller is a good thing for a few reasons. For one, everything tends to get a bit cheaper. Moving containers across the Internet takes time and bits to do. If you can make those containers smaller, things will go faster and you'll require less space on your servers. Often private container registries (like personal Docker Hubs, Azure Container Registry is a good example) charge you by how much storage you're using.
 
 Beyond that, having less _things_ in your container means you're less susceptible to bugs. Let's say there's a Python exploit that's going around that allows hackers to get root access to your container. If you don't have Python in your container, you're not vulnerable! And obviously if you do have Python installed (even if you're not using it) you're vulnerable. So let's see how to make your container a bit smaller.
 

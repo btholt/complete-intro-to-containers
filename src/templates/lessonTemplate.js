@@ -6,26 +6,28 @@ export default function Template(props) {
   let { markdownRemark, allMarkdownRemark } = props.data; // data.markdownRemark holds our post data
 
   const { frontmatter, html } = markdownRemark;
+
+  const index = allMarkdownRemark.edges.reduce(
+    (acc, el, i) => (el.node.frontmatter.path === frontmatter.path ? i : acc),
+    -1
+  );
+
   const prevLink =
-    frontmatter.order > 1 ? (
+    index > 0 ? (
       <Link
         className="prev"
-        to={
-          allMarkdownRemark.edges[frontmatter.order - 2].node.frontmatter.path
-        }
+        to={allMarkdownRemark.edges[index - 1].node.frontmatter.path}
       >
-        {"← " +
-          allMarkdownRemark.edges[frontmatter.order - 2].node.frontmatter.title}
+        {"← " + allMarkdownRemark.edges[index - 1].node.frontmatter.title}
       </Link>
     ) : null;
   const nextLink =
-    frontmatter.order < allMarkdownRemark.edges.length ? (
+    index < allMarkdownRemark.edges.length - 1 ? (
       <Link
         className="next"
-        to={allMarkdownRemark.edges[frontmatter.order].node.frontmatter.path}
+        to={allMarkdownRemark.edges[index + 1].node.frontmatter.path}
       >
-        {allMarkdownRemark.edges[frontmatter.order].node.frontmatter.title +
-          " →"}
+        {allMarkdownRemark.edges[index + 1].node.frontmatter.title + " →"}
       </Link>
     ) : null;
   return (

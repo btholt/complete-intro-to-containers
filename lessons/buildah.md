@@ -1,11 +1,11 @@
 ---
-path: "/buildah-podman"
-order: 12
-title: "Non-Docker Containers: Buildah and Podman"
-section: "OCI Containers"
+path: "/buildah"
+order: 8.0
+title: "Buildah"
+section: "OCI (Non-Docker) Containers"
 ---
 
-**NOTE**: Both of these tools _only work in Linux_. If you're using Windows and WSL, this work seamlessly. If you're on macOS, this will not work. You could try to run this within [the Buildah container][buildah-container] off of Docker Hub. This container has both Buildah and Podman. This is what I'm going tod.
+**NOTE**: Both of these tools _only work in Linux_. If you're using Windows and WSL, this work seamlessly. If you're on macOS, this will not work. You could try to run this within [the Buildah container][buildah-container] off of Docker Hub. This container has both Buildah and Podman. This is what I'm going to do.
 
 ## Intro
 

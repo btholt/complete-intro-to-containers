@@ -1,6 +1,6 @@
 ---
 path: "/kubernetes"
-order: 11
+order: 7.1
 title: "Kubernetes"
 section: "Multi Container Projects"
 ---
@@ -90,10 +90,3 @@ What's super fun is that kubectl is the same tool you'd use to control your prod
 
 [kubectl]: https://kubernetes.io/docs/tasks/tools/install-kubectl/
 [minikube]: https://kubernetes.io/docs/tasks/tools/install-minikube/
-[ingress]: https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0
-[localhost]: http://localhost:3000
-[aks]: https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough
-[aws]: https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html
-[gcp]: https://cloud.google.com/kubernetes-engine/docs/quickstart
-[kompose]: https://kompose.io/
-[install-kompose]: https://kompose.io/installation/
