@@ -56,6 +56,7 @@ export const pageQuery = graphql`
         path
         title
         order
+        section
       }
     }
     allMarkdownRemark(

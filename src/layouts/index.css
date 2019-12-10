@@ -13,6 +13,24 @@
   width: 100%;
   top: 0;
   z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar h1 {
+  font-size: 20px;
+  margin: inherit;
+  padding: inherit;
+  font-weight: bold;
+}
+
+.navbar h2 {
+  font-size: 14px;
+  margin: inherit;
+  padding: inherit;
+  text-transform: uppercase;
+  color: white;
 }
 
 .jumbotron.gradient {

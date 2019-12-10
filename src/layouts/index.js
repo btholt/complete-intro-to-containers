@@ -28,8 +28,11 @@ const TemplateWrapper = props => {
           />
           <div className="navbar navbar-light gradient">
             <Link to="/" className="navbar-brand">
-              {data.site.siteMetadata.title}
+              <h1>{data.site.siteMetadata.title}</h1>
             </Link>
+            {!props.data.markdownRemark ? null : (
+              <h2>{`${props.data.markdownRemark.frontmatter.section} – ${props.data.markdownRemark.frontmatter.title}`}</h2>
+            )}
           </div>
           <div className="main">{props.children}</div>
         </div>
@@ -42,6 +45,7 @@ const TemplateWrapper = props => {
               path
               title
               order
+              section
             }
           }
           site {
