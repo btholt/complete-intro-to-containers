@@ -30,7 +30,7 @@ const TemplateWrapper = props => {
             <Link to="/" className="navbar-brand">
               <h1>{data.site.siteMetadata.title}</h1>
             </Link>
-            {!props.data.markdownRemark ? null : (
+            {!(props.data && props.data.markdownRemark) ? null : (
               <h2>{`${props.data.markdownRemark.frontmatter.section} – ${props.data.markdownRemark.frontmatter.title}`}</h2>
             )}
           </div>
