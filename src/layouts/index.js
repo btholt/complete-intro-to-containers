@@ -58,9 +58,9 @@ const TemplateWrapper = props => {
                   name: "og:url",
                   content:
                     "https://btholt.github.io/complete-intro-to-containers" +
-                    frontmatter
+                      frontmatter && frontmatter.path
                       ? frontmatter.path
-                      : null
+                      : ""
                 },
                 {
                   name: "keywords",
