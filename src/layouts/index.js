@@ -55,6 +55,10 @@ const TemplateWrapper = props => {
                   content: props.location.origin + jpg
                 },
                 {
+                  name: "twitter:image",
+                  content: props.location.origin + jpg
+                },
+                {
                   name: "og:url",
                   content: props.location.href
                 },
