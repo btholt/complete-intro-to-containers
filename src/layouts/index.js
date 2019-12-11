@@ -52,15 +52,13 @@ const TemplateWrapper = props => {
                 },
                 {
                   name: "og:image",
-                  content: props.location.origin + jpg
-                },
-                {
-                  name: "twitter:image",
-                  content: props.location.origin + jpg
+                  content: "https://btholt.github.io" + jpg
                 },
                 {
                   name: "og:url",
-                  content: props.location.href
+                  content:
+                    "https://btholt.github.io/complete-intro-to-containers" +
+                    frontmatter.path
                 },
                 {
                   name: "keywords",
