@@ -3,7 +3,7 @@ order: 6.2
 path: "/dev-containers"
 title: "Using Containers for your Dev Environment"
 section: "Features in Docker"
-descriptions: "Containers can be useful as development environments. This makes them shareable, recreatable, portable, and makes them a great launching pad for building the production environment too. Brian shows how to use containers to build a Hugo (a Go-based static site generator) project."
+description: "Containers can be useful as development environments. This makes them shareable, recreatable, portable, and makes them a great launching pad for building the production environment too. Brian shows how to use containers to build a Hugo (a Go-based static site generator) project."
 ---
 
 So far we've talking about taking an app and using containers to prepare the apps to run. This is an obvious use case for them and one you're going to use a lot. But let's talk about a different use case for them: building development environments for your apps.
