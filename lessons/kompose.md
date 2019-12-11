@@ -3,9 +3,8 @@ path: "/kompose"
 order: 7.2
 title: "Kompose"
 section: "Multi Container Projects"
+description: "Kompose converts a docker-compose.yml configuration to a Kubernetes configuration. Brian shows how to take the previous Docker Compose YAML file and running that same configuration through Kubernetes"
 ---
-
-## Kompose
 
 Next tool we're going to use is one called [Kompose][kompose]. I'm showing you this tool because it's normally how I start out with Kubernetes. Kompose converts a docker-compose.yml configuration to a Kubernetes configuration. I find this to much more approachable than starting with the myriad configurations you need to get Kubernetes going.
 

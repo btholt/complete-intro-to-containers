@@ -3,6 +3,7 @@ path: "/docker-images-with-docker"
 title: "Docker Images with Docker"
 order: 3.2
 section: "Docker"
+description: "Brian will now show you how to use the Docker CLI directly to use images and how the Docker command line client works with regard to images of containers."
 ---
 
 ### Docker Images with Docker

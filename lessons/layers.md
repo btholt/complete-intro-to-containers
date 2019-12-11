@@ -3,6 +3,7 @@ title: "Layers"
 path: "/layers"
 order: 4.5
 section: "The Dockerfile"
+description: "Brian goes into depth about what layers are with regard to Docker images and how you can leverage Docker's caching of layers to more quickly rebuild containers"
 ---
 
 ## Layers

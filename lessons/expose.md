@@ -3,6 +3,7 @@ title: "A Note on EXPOSE"
 path: "/expose"
 order: 4.4
 section: "The Dockerfile"
+description: "It can be confusing what the EXPOSE instruction does so Brian takes a moment to explain why you won't necessarily need to use it."
 ---
 
 ## A Note on EXPOSE

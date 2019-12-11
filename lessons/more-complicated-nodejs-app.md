@@ -3,9 +3,8 @@ title: "A More Complicated Node.js App"
 path: "/more-complicated-nodejs-app"
 order: 4.2
 section: "The Dockerfile"
+description: "Brian shows how to write a Dockerfile for a more complicated app and how to avoid problems with Node.js native modules"
 ---
-
-## A more complicated app
 
 Okay, all looking good so far. Let's make this app go one step further. Let's have it have an npm install step! In the directory where your app is, put this:
 

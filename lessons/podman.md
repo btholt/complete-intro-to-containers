@@ -3,9 +3,8 @@ path: "/podman"
 order: 8.1
 title: "Podman"
 section: "OCI (Non-Docker) Containers"
+description: "Podman allows you to run OCI or Docker containers. Brian takes the Buildah container that was built in the previous section and runs it with Podman."
 ---
-
-## Podman
 
 I'm going to do this inside of the [Buildah container][buildah-container] because this was quite difficult to set up outside of it. And in reality most of you will be doing this with Docker anyway so this is more of an academic exercise.
 

@@ -1,8 +1,9 @@
 ---
 path: "/tags"
 title: "Tags"
-order: 3.5
+order: 3.4
 section: "Docker"
+description: "Tags are an essential part of the Docker CLI that allow you to label your containers with referenceable tags and allows you to tie your app to specific versions of containers, whether that's a certain version of Linux or a particular version of Node.js (or both!)"
 ---
 
 ## Tags

@@ -3,6 +3,7 @@ title: "Making Our Own Alpine Node.js Container"
 path: "/making-our-own-alpine-nodejs-container"
 order: 5.1
 section: "Making Tiny Containers"
+description: "As an exercise to understand what goes into making a container from scratch, Brian shows how to create a Node.js container from the base Alpine container."
 ---
 
 ## Making our own Node.js Alpine container

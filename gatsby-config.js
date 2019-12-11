@@ -10,10 +10,11 @@ module.exports = {
       "node",
       "brian holt",
       "frontend masters",
+      "docker",
       "nodejs"
     ]
   },
-  pathPrefix: "/complete-intro-to-containers", // if you're using GitHub Pages, put the name of the repo here with a leading slash
+  pathPrefix: "/complete-intro-to-containers",
   plugins: [
     `gatsby-plugin-layout`,
     {

@@ -3,6 +3,7 @@ title: "Networking with Docker"
 order: 6.4
 path: "/networking"
 section: "Features in Docker"
+description: "Networking is key when you start making projects have multiple containers. Docker allows you to create bridge networks to connect connect containers together. Brian shows how to connect two MongoDB containers together so you can have one container running a database and one running the client to connect to the other."
 ---
 
 This is not going to be a deep dive into how networking works. Networking is a deep, deep pool of knowledge and merits entire courses to understand. Just worrying about networking is some people's jobs due to the immense surface area of the subject. Instead, I want to just peek under the covers of how to do manual networking with Docker so you can understand what Docker Compose and Kubernetes do for you.

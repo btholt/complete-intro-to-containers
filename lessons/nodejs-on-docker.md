@@ -3,6 +3,7 @@ path: "/nodejs-on-docker"
 title: "Node.js on Docker"
 order: 3.3
 section: "Docker"
+description: "To demonstrate the wide variety of containers that exist, Brian shows you how to pull down a Node.js container that uses Debian instead of Ubuntu."
 ---
 
 ## Node.js on Containers

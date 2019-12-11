@@ -3,6 +3,7 @@ path: "/docker-cli"
 title: "Docker CLI"
 order: 3.5
 section: "Docker"
+description: "There's a lot of features of the Docker CLI and while that won't necessarily be the focus of this workshop, Brian takes a moment to explain to you some of the additional available functionality."
 ---
 
 Let's take a look at some more cool features of the Docker CLI.

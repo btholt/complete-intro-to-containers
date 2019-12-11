@@ -3,6 +3,7 @@ path: "/namespaces"
 title: "Namespaces"
 order: 2.2
 section: "Crafting Containers By Hand"
+description: "Namespaces is the second feature of the Linux kernel that allow for containers. Namespaces let you hide processes, networks, and other core functionality from sets of processes. Brian shows us how to use namespaces manually."
 ---
 
 ## namespace

@@ -3,6 +3,7 @@ path: "/cgroups"
 title: "cgroups"
 order: 2.3
 section: "Crafting Containers By Hand"
+description: "cgroups, or control groups, are the third and last feature of the Linux kernel that allow for containers. They allow us to restrict how much resources a process can take. Brian shows how to manually use cgroups on to restrict processes."
 ---
 
 Okay, so now we've hidden the processes from Eve so Bob and Alice can engage in commerce in privacy and peace. So we're all good, right? They can no longer mess each other, right? Not quite. We're almost there.

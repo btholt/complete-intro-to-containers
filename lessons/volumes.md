@@ -3,9 +3,8 @@ title: "Volumes"
 path: "/volumes"
 order: 6.1
 section: "Features in Docker"
+description: "Volumes are so that your containers can maintain state between runs. If you have a container that runs and the next time it runs it needs the results from the previous time it ran, you need volumes."
 ---
-
-## Volumes
 
 Bind mounts are great for when you need to share data between your host and your container as we just learned. Volumes, on the other hand, are so that your containers can maintain state between runs. So if you have a container that runs and the next time it runs it needs the results from the previous time it ran, volumes are going to be helpful. Volumes can not only be shared by the same container-type between runs but also between different containers. Maybe if you have two containers and you want to log to consolidate your logs to one place, volumes could help with that.
 

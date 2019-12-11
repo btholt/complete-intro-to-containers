@@ -3,6 +3,7 @@ title: "Static Assets Project"
 path: "/static-assets-project"
 order: 5.3
 section: "Making Tiny Containers"
+description: "Brian gives an exercise to make the create-react-app app be served by NGINX so that it's understandable how to pull into someone else's container they've built and build on top of it."
 ---
 
 We're going to do a project now! Free to attempt the project first and then follow along with me as I code the answer.

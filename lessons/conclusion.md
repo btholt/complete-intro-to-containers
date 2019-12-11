@@ -3,6 +3,7 @@ path: "/conclusion"
 order: 13
 title: "Conclusion"
 section: "Wrapping Up"
+description: "Brian wraps up the whole course and gives additional topics to follow up on for those who are curious. Congrats! You've learned how to build and use containers!"
 ---
 
 ## What you learned

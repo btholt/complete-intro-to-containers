@@ -3,6 +3,7 @@ path: "/docker-images-without-docker"
 title: "Docker Images without Docker"
 order: 3.1
 section: "Docker"
+description: "Docker give us the fabulous ability to use containers other people have used by pulling them Docker Hub which is like a package manager for containers. Brian shows us how to download a container, unpack it, and use it without Docker so you can know how to do it manually."
 ---
 
 ## Images

@@ -25,6 +25,7 @@ const IndexPage = () => (
                 path
                 title
                 section
+                description
               }
             }
           }

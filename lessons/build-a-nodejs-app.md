@@ -3,9 +3,8 @@ title: "Build a Node.js App"
 path: "/build-a-nodejs-app"
 order: 4.1
 section: "The Dockerfile"
+description: "In order to understand Dockerfiles better, Brian shows how to build a Node.js application inside of a container and how to write a proper Dockerfile for a Node.js app."
 ---
-
-## Building a Node.js App with Docker
 
 So now let's dig into some more advance things you can do with a Dockerfile. Let's first make our project a real Node.js application. Make a file called `index.js` and put this in there.
 

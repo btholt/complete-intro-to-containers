@@ -3,6 +3,7 @@ title: "Intro to Dockerfiles"
 path: "/dockerfile"
 order: 4.0
 section: "The Dockerfile"
+description: "Docker has a special file called a `Dockerfile` which allows you to outline how a container will be built. Each line in a Docker file is a new a directive of how to change your Docker container. Brian goes into the basics of write a Dockerfile here."
 ---
 
 So far we've been focusing a lot on running containers and haven't much dug into building them. This is on purpose because most of benefit of containers for developers comes from the running of containers. If you learn one thing, it should be how to run them.

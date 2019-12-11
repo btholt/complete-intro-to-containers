@@ -3,6 +3,7 @@ order: 6.3
 path: "/visual-studio-code"
 title: "Dev Containers with Visual Studio Code"
 section: "Features in Docker"
+description: "Containers can be used in conjunction with Visual Studio Code to automatically set up development environments for yourself and other developers working on the project. Brian shows how to set up dev containers specifically for Visual Studio Code."
 ---
 
 ## Visual Studio Code

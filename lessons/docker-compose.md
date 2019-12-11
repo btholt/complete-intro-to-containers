@@ -3,9 +3,10 @@ path: "/docker-compose"
 order: 7.0
 title: "Docker Compose"
 section: "Multi Container Projects"
+description: "Docker Compose allows for setting up multiple container set ups with a single configuration file as opposed to having to hand create your development. Brian shows how to take the Node.js + MongoDB app and create the environment with just `docker-compose up`."
 ---
 
-This may be one of the most features you learn about Docker. We've been mixing various different facets of deploying your app to production and creating development environments. This feature in particular is geared much more for development environments. Many times when you're developing containers you're not in just a single container environment (though that does happen too.) When this happens, you need to coordinate multiple containers when you're doing local dev and you've seen in the previous chapter, networking, that it's possible if a bit annoying.
+This may be one of the most useful features you learn about Docker. We've been mixing various different facets of deploying your app to production and creating development environments. This feature in particular is geared much more for development environments. Many times when you're developing containers you're not in just a single container environment (though that does happen too.) When this happens, you need to coordinate multiple containers when you're doing local dev and you've seen in the previous chapter, networking, that it's possible if a bit annoying.
 
 With Docker Compose we simplify this a lot. Docker Compose allows us the ability to coordinate multiple containers and do so with one YAML file. This is great if you're developing a Node.js app and it requires a database, caching, or even if you have two+ separate apps in two+ separate containers that depend on each other or all the above! Docker Compose makes it really simple to define the relationship between these containers and get them all running with one `docker-compose up`.
 

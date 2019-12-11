@@ -3,6 +3,7 @@ path: "/intro"
 title: "Introduction"
 order: 1.0
 section: "Welcome"
+description: "Brian Holt lays out the course objectives, his background, and where to file issues with the course as well as why he created this course: he believes that containers are going to be important to every developer going forward."
 ---
 
 ## Course Objective

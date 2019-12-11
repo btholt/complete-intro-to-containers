@@ -3,6 +3,7 @@ path: "/chroot"
 title: "chroot"
 order: 2.1
 section: "Crafting Containers By Hand"
+description: "chroot is the first of the important Linux kernel features that allow us to create contained processes without a whole virtualization layer. Brian shows how to use chroot to restrict a process to a certain file tree."
 ---
 
 ## chroot
