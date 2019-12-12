@@ -17,7 +17,7 @@ docker run -it node:8 bash
 Once in the shell, run `node --version` and you'll see the Node.js version is 8._._! Neat! This is helpful because now we can fix our Node.js version to the one our app expects. Hop back over to [the Docker Hub page for the node container][node]. Take a look at all the version of the node container you can download. Let's try another one.
 
 ```bash
-docker run node:alpine cat /etc/issue
+docker run node:12-alpine cat /etc/issue
 ```
 
 You'll see this is running an entirely different OS all together: Alpine! [Alpine Linux][alpine] is a very, very tiny distro of Linux made for containers and specifically because it is tiny. Alpine containers are bare bones: if you want _anything_ in them, you're going to have to do it yourself. This is in opposition to the Ubuntu and Debian containers: they ship the kitchen sink with them which is both convenient and much bigger in size. Alpine images are about five megabytes whereas Ubuntu is close to two hundred megabytes. As you can imagine, this can make a difference in how fast you can deploy and can cost significantly less in terms of storage and network traffic. It's also in general better to have less unnecessary things in your containers: less is more in terms of security. If an attacker tries to execute a Python exploit on your container but your container doesn't have Python then their attack won't work.

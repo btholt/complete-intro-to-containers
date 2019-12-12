@@ -6,8 +6,6 @@ section: "The Dockerfile"
 description: "Brian goes into depth about what layers are with regard to Docker images and how you can leverage Docker's caching of layers to more quickly rebuild containers"
 ---
 
-## Layers
-
 Go make any change to your Node.js app. Now re-run your build process. Docker is smart enough to see the your `FROM`, `RUN`, and `WORKDIR` instructions haven't changed and wouldn't change if you ran them again so it uses the same containers it cached from the previous but it can see that your `COPY` is different since files changed between last time and this time, so it begins the build process there and re-runs all instructinos after that. Pretty smart, right?
 
 So which part of container-building takes the longest? `RUN npm ci`. Anything that has to hit the network is going to take the longest without-a-doubt. The shame is that our `package.json` hasn't changed since the previous iteration; we just changed something in our `index.js`. So how we make it so we only re-run our `npm ci` when package.json changes? Break it into two `COPY` instructions!

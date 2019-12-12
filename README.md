@@ -1,49 +1,35 @@
-<h1 align="center">gatsby-course-starter</h1> <br>
-<p align="center">
-    <img alt="project logo" src="https://brholtimages.blob.core.windows.net/images/woman-teacher.png" width="150">
-</p>
+# Getting Set Up
 
-<p align="center">
-  A Gatsby starter to get you started creating educational materials using Markdown
-</p>
+## For Everyone
 
-## Get Started
+[Install Visual Studio Code](https://code.visualstudio.com). For one section of the course I'll go some of how VSCode and containers work well together. The rest of the course you can use whatever editor you want.
 
-1. `npm install --global gatsby-cli` - make sure you're on Gatsby v2+
-   - See [docs here](https://next.gatsbyjs.org/docs/) if you need help
-1. `gatsby new course-website https://github.com/btholt/gatsby-course-starter`
-1. `cd course-website`
-1. `npm run dev`
-1. Open http://localhost:8000 in your browser
+## For macOS and Linux
 
-## Lessons
+Please make sure you have the following things installed and ready to go!
 
-The crux of this site is are the lessons. Provided are two examples. Each lesson needs a [frontmattter](https://github.com/gatsbyjs/gatsby/blob/master/docs/docs/adding-markdown-pages.md#note-on-creating-markdown-files) `path`, `order`, and `title`. Generally you should make the `path` and the file name match for ease of finding it.
+- For Mac: [Docker Desktop Community](https://www.docker.com/products/docker-desktop)
+- For Linux: [Docker Engine Community](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
 
-- `path` - needs a leading slash. This will be slug of the lesson
-- `title` - will be the title displayed on the Table of Contents and on the page itself
-- `order` - the order of which the item should appear in the table of contents. The first item should be of order `0`. The second should be `1`, etc. Must be numbered sequentially, i.e. don't skip numbers.
+## For Windows
 
-## Config
+If **you have Windows 10 Professional** (it doesn't work in Home), try [WSL 2](https://docs.microsoft.com/en-us/windows/wsl/wsl2-install) and [Docker for WSL 2](https://docs.docker.com/docker-for-windows/wsl-tech-preview/). WSL stands for Window Subsystem for Linux. It allows you to run Linux within Windows. That's what I'll be using. WSL 2 works faster than WSL1 but it's harder to set up since it's still in preview.
 
-Inside of `gatsby-config.js` be sure to fill out the `siteMetadata` fields, including `title`, `subtitle`, `description`, and `keywords`.
+If you do not have Windows 10 Professional and you do not want to buy it, [follow this blog post](https://medium.com/@mbyfieldcameron/docker-on-windows-10-home-edition-c186c538dff3) to install VirtualBox and a Linux VM so you can follow inside of Linux. I'd suggest using Ubuntu.
 
-## Azure Pipelines
+Or, if you know PowerShell really well and know how to translate bash commands to PowerShell commands, feel free to install [Docker Desktop Community](https://www.docker.com/products/docker-desktop) and do everything from PowerShell (honestly it shouldn't be too bad.)
 
-Azure has a free-for-open-source continuous integration platform called [Azure Pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/?WT.mc_id=gatsby-github-brholt). This project is already set up for it with the `azure-pipelines.yml`. Just add the project to Pipelines and it'll immediately correctly build the project. From there you'll have a build artifact that you can use to deploy to [Azure Static Sites](https://azure.microsoft.com/en-us/blog/azure-storage-static-web-hosting-public-preview/?WT.mc_id=gatsby-github-brholt) or [GitHub Pages](https://pages.github.com/).
+For everyone:
 
-## GitHub Pages
+Make sure when you go to a bash prompt and type `docker info` that it outputs system info and doesn't error out. This will let you know that everything is working.
 
-If you do want to deploy to GitHub pages, make sure you add the name of the repo to the `pathPrefix` property in `gatsby-config.js` so that it will correctly make all the links.
+Once you have Docker up and running, please run the following. This will pull most of the containers you will need up front.
 
-## Example Sites
-
-- [Complete Intro to Web Dev v2](https://btholt.github.io/intro-to-web-dev-v2/)
-- [Complete Intro to React v4](https://btholt.github.io/complete-intro-to-react-v4/)
-- [Four Semesters of Computer Science in Five Hours Part II](https://btholt.github.io/four-semesters-of-cs-part-two/)
-
-## License
-
-The **code** is this repo is licensed under the Apache 2.0 license.
-
-I include the CC-BY-NC-4.0 license for the content; this is what I recommend you license your **content** under: anyone can use and share the content but they cannot sell it; only you can.
+```bash
+docker pull ubuntu:bionic
+docker pull node:12-stretch
+docker pull node:12-alpine
+docker pull nginx:1.17
+docker pull mongo:3
+docker pull hugo-builder:0.55
+```

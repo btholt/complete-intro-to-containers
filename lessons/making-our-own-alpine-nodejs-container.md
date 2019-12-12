@@ -64,4 +64,4 @@ COPY --chown=node:node . .
 CMD ["node", "index.js"]
 ```
 
-It works! We're down to 56MB (compared to 86MB with the official `node:alpine` container). Honestly, I'm not entirely sure what we cut out from the other `node:alpine` container but it's probably important. Again, I'd stick to the official containers where they exist. But hey, we learned how to add a user and install system dependencies! Let's make it even small because why the hell not.
+It works! We're down to 56MB (compared to 86MB with the official `node:12-alpine` container). Honestly, I'm not entirely sure what we cut out from the other `node:12-alpine` container but it's probably important. Again, I'd stick to the official containers where they exist. But hey, we learned how to add a user and install system dependencies! Let's make it even small because why the hell not.

@@ -19,7 +19,7 @@ This takes everything one step further: you can actually set up someone's editor
 Make a folder within your static-app project called `.devcontainer`. In there we'll put two files. The first one is the Dockerfile where we'll just set up our dev environment.
 
 ```Dockerfile
-FROM node
+FROM node:12-stretch
 RUN npm install -g eslint prettier
 ```
 

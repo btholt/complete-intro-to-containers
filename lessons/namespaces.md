@@ -32,7 +32,7 @@ Now, this isn't secure. The only thing we've protected is the file system, mostl
 
 So let's create a chroot'd environment now that's isolated using namespaces using a new command: `unshare`. `unshare` creates a new isolated namespace from its parent (so you, the server provider can't spy on Bob nor Alice either) and all other future tenants. Run this:
 
-**NOTE**: This next command downloads about 150MB and takes at least a minute to run.
+**NOTE**: This next command downloads about 150MB and takes at least a few minutes to run.
 
 ```bash
 exit # from our chroot'd environment if you're still running it, if not skip this

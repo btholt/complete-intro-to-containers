@@ -45,7 +45,7 @@ const writeTo = data => {
 Don't worry too much about the Node.js. It looks for a file `$DATA_PATH` if it exists or `./data.txt` if it doesn't and if it exists, it reads it, logs it, and writes back to the data file after incrementing the number. If it just run it right now, it'll create a `data.txt` file with 0 in it. If you run it again, it'll have `1` in there and so on. So let's make this work with volumes.
 
 ```dockerfile
-FROM node:alpine
+FROM node:12-alpine
 COPY --chown=node:node . /src
 WORKDIR /src
 CMD ["node", "index.js"]

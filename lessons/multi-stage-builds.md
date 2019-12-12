@@ -12,7 +12,7 @@ Make a new Dockerfile, call it `multi-node.Dockerfile`.
 
 ```dockerfile
 # build stage
-FROM node:latest
+FROM node:12-stretch
 WORKDIR /build
 COPY package-lock.json package.json ./
 RUN npm ci
@@ -42,6 +42,6 @@ docker build -t multi-node -f multi-node.Dockerfile .
 docker run -p 3000:3000 multi-node
 ```
 
-Still works! And our container size is down to a cool 39MB as compared to 56MB when we included npm, 86MB when we used `node:alpine` and 913MB when we used `node:latest`.
+Still works! And our container size is down to a cool 39MB as compared to 56MB when we included npm, 86MB when we used `node:12-alpine` and 913MB when we used `node:latest`.
 
-Pretty amazing, right? Honestly, how worth is it doing micro optimization like this? Not very. We had to do a decent amount to shave 40MB off the final size and now we're stuck maintaining it. I'd rather just start with `FROM node:alpine` and call it a day. We get all their wisdom for free and we're not stuck with a longer Dockerfile than we need. But it is definitely worth going from 913MB to 86MB!
+Pretty amazing, right? Honestly, how worth is it doing micro optimization like this? Not very. We had to do a decent amount to shave 40MB off the final size and now we're stuck maintaining it. I'd rather just start with `FROM node:12-alpine` and call it a day. We get all their wisdom for free and we're not stuck with a longer Dockerfile than we need. But it is definitely worth going from 913MB to 86MB!

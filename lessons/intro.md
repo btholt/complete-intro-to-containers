@@ -14,7 +14,15 @@ Hello! And welcome to the Complete Intro to Containers! The objective of this co
 
 This course is aimed at a developer demographic. While all the examples will be dealing with JavaScript applications, you don't necessarily need to be a JavaScript developer to grasp this case; the code will be incidental to the concepts being taught.
 
-This course assumes a very basic grasp of Linux and using the command line. You don't need to be a bash expert but this shouldn't be your first exposure to Linux or the command line. The class will be taught for both macOS and Windows users and will be using Ubuntu and Alpine Linux for the containers. This will also work well for Linux developers but the class won't have any additional instructions for Linux devs but following the macOS steps should be 95% the same. If you are a Windows developer, please be using Windows 10 and install [WSL][wsl]. If you're feeling adventurous, [WSL2][wsl2] is available and much faster than WSL1 but less stable and much harder to set up. This course is best if you have a computer with 8GB of RAM. It can be done on less; just make sure you have _nothing else_ running. Containers take a lot of memory.
+This course assumes a very basic grasp of Linux and using the command line. You don't need to be a bash expert but this shouldn't be your first exposure to Linux or the command line. The class will be taught for both macOS and Windows users and will be using Ubuntu and Alpine Linux for the containers. This will also work well for Linux developers but the class won't have any additional instructions for Linux devs but following the macOS steps should be 95% the same. If you are a Windows developer, please be using Windows 10. You'll need to either use [WSL 2][wsl2] or VirtualBox. See the set up instructions below.
+
+For set up instructions, [refer here][readme].
+
+To see all of the completed project files in a repo, [refer here][project-files].
+
+Do note that containers can take a lot of CPU and memory. If you have a modern-ish processor and 8GB, you will be fine. This could probably be done with some slow down on 4GB but anything lower would be pretty tough.
+
+This can also take a lot of bandwidth because we'll be downloading a lot of things. Be aware of that.
 
 ## Where to File Issues
 
@@ -56,3 +64,5 @@ And hey, if you could take a second and [star the repo on GitHub][gh] I'd be sup
 [issue]: https://github.com/btholt/complete-intro-to-containers/issues
 [wsl2]: https://docs.microsoft.com/en-us/windows/wsl/wsl2-install
 [wsl]: https://docs.microsoft.com/en-us/windows/wsl/install-win10
+[readme]: https://github.com/btholt/complete-intro-to-containers/blob/master/README.md
+[project-files]: https://github.com/btholt/projects-for-complete-intro-to-containers

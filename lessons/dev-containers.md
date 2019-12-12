@@ -24,7 +24,7 @@ Let's go from zero to running our new project in dev mode in three commands
 git clone https://github.com/btholt/hugo-example.git
 cd hugo-example/
 # you could rewrite the --mount here as -v $PWD:/src
-docker run --rm -it --mount type=bind,source="$(pwd)",target=/src -p 1313:1313 -u hugo jguyomard/hugo-builder hugo server -w --bind=0.0.0.0
+docker run --rm -it --mount type=bind,source="$(pwd)",target=/src -p 1313:1313 -u hugo jguyomard/hugo-builder:0.55 hugo server -w --bind=0.0.0.0
 ```
 
 How cool is this? We're zero to developing in Go in three commands! This is a super useful tool for getting developer environments up and running.

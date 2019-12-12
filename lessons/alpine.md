@@ -17,7 +17,7 @@ Beyond that, having less _things_ in your container means you're less susceptibl
 In your previous Dockerfile, change the first line (`FROM`)
 
 ```dockerfile
-FROM node:alpine
+FROM node:12-alpine
 
 USER node
 
@@ -36,6 +36,6 @@ CMD ["node", "index.js"]
 
 Our image size (by comparing the `"Size"` field in in `docker inspect my-app`) from 913MB to 86MB just like that. We shed quite a bit of cruft that we didn't need in Ubuntu and we didn't even need to change anything in our Dockerfile. Honestly, that's unusual. When you strip _everything_ out typically you'll have to go back and add some of them back in. But in this case we're golden!
 
-Alpine, if you remember, is a bare bones alternative to Ubuntu. It's built on Busybox Linux which is a 2MB distro of Linux (Alpine is 5MB.) `node:alpine` itself is about `80MB` and `node:latest is about 908MB`.
+Alpine, if you remember, is a bare bones alternative to Ubuntu. It's built on Busybox Linux which is a 2MB distro of Linux (Alpine is 5MB.) `node:12-alpine` itself is about `80MB` and `node:latest is about 908MB`.
 
 When should you select Alpine? My general feeling (this is a Brian Holt opinion, not a community one so take it with a grain of salt) is that the "end destination" container is where Alpine is the best. It cuts all cruft out which is super helpful for end-deployment sorts of scenarios due to security and size but it also can be annoying for development scenarios because it lacks just about everything necessary for those, making you have to hand install everything you need. In these "middle scenarios" where it's not really the destination and the container is just another tool in your development system (where that's a multi stage build or a development container) I'll reach for Ubuntu or Debian.
