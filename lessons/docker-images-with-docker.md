@@ -11,7 +11,7 @@ description: "Brian will now show you how to use the Docker CLI directly to use 
 So it's much easier to do what we did with Docker. Run this command:
 
 ```bash
-docker run --interactive --tty run alpine:3.10 # or, to be shorter: docker run -it alpine:3.10
+docker run --interactive --tty alpine:3.10 # or, to be shorter: docker run -it alpine:3.10
 ```
 
 A bit easier to remember, right? This will drop you into a Alpine ash shell inside of a container as the root user of that container. When you're done, just run `exit` or hit CTRL+D. Notice that this will grab the [alpine][alpine] image from Docker for you and run it. The `run` part of the command is telling Docker you're going to be executing a container (as opposed to building it.) The `-it` part says you want to be dropped into the container interactively so you can run commands and inspect the container. By default containers run and then exit as soon as they're done. Go ahead and try `docker run alpine:3.10`. It'll look it did nothing but it actually starts the container and then, because it has nothing defined for it to do, it just exits.
