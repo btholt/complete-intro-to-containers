@@ -51,7 +51,7 @@
 <p>Go ahead and install <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers">the Remote - Containers</a> extension.</p>
 <p>This takes everything one step further: you can actually set up someone's editor for them when they open your project. You can change settings, add extensions, define debugging, and control the container environment with the remote extension and dev containers. Let's go ahead and give it a shot!</p>
 <p>Make a folder within your static-app project called <code class="language-text">.devcontainer</code>. In there we'll put two files. The first one is the Dockerfile where we'll just set up our dev environment.</p>
-<div class="gatsby-highlight" data-language="dockerfile"><pre class="language-dockerfile"><code class="language-dockerfile"><span class="token keyword">FROM</span> node
+<div class="gatsby-highlight" data-language="dockerfile"><pre class="language-dockerfile"><code class="language-dockerfile"><span class="token keyword">FROM</span> node<span class="token punctuation">:</span>12<span class="token punctuation">-</span>stretch
 <span class="token keyword">RUN</span> npm install <span class="token punctuation">-</span>g eslint prettier</code></pre></div>
 <p>Just need the tools and environment, don't actually need to build anything or put the code in there. Visual Studio Code will handle that automatically. Next make a file inside <code class="language-text">.devcontainer</code> called <code class="language-text">devcontainer.json</code>. The folder name has leading <code class="language-text">.</code>, the the JSON file does not.</p>
 <div class="gatsby-highlight" data-language="json"><pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
