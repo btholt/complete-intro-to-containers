@@ -31,5 +31,5 @@ docker pull node:12-stretch
 docker pull node:12-alpine
 docker pull nginx:1.17
 docker pull mongo:3
-docker pull hugo-builder:0.55
+docker pull jguyomard/hugo-builder:0.55
 ```
