@@ -22,7 +22,7 @@ Okay, so let's attempt to use `chroot` right now.
 1. Inside that new folder, run `echo "my super secret thing" >> /my-new-root/secret.txt`.
 1. Now try to run `chroot /my-new-root bash` and see the error it gives you.
 
-You should see something about failing to run a shell or not being to find bash. That's because bash is a program and your new root wouldn't have bash to run (because it can't reach outside of its new root.) So let's fix that! Run:
+You should see something about failing to run a shell or not being able to find bash. That's because bash is a program and your new root wouldn't have bash to run (because it can't reach outside of its new root.) So let's fix that! Run:
 
 1. `mkdir /my-new-root/bin`
 1. `cp /bin/bash /bin/ls /my-new-root/bin/`
