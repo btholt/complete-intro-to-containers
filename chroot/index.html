@@ -56,7 +56,7 @@
 <li>Inside that new folder, run <code class="language-text">echo &quot;my super secret thing&quot; &gt;&gt; /my-new-root/secret.txt</code>.</li>
 <li>Now try to run <code class="language-text">chroot /my-new-root bash</code> and see the error it gives you.</li>
 </ol>
-<p>You should see something about failing to run a shell or not being to find bash. That's because bash is a program and your new root wouldn't have bash to run (because it can't reach outside of its new root.) So let's fix that! Run:</p>
+<p>You should see something about failing to run a shell or not being able to find bash. That's because bash is a program and your new root wouldn't have bash to run (because it can't reach outside of its new root.) So let's fix that! Run:</p>
 <ol>
 <li><code class="language-text">mkdir /my-new-root/bin</code></li>
 <li><code class="language-text">cp /bin/bash /bin/ls /my-new-root/bin/</code></li>
