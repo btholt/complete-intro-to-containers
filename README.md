@@ -2,7 +2,7 @@
 
 ## For Everyone
 
-[Install Visual Studio Code](https://code.visualstudio.com). For one section of the course I'll go some of how VSCode and containers work well together. The rest of the course you can use whatever editor you want.
+[Install Visual Studio Code](https://code.visualstudio.com). For one section of the course I'll go over some of how VSCode and containers work well together. The rest of the course you can use whatever editor you want.
 
 ## For macOS and Linux
 
@@ -19,7 +19,7 @@ If you do not have Windows 10 Professional and you do not want to buy it, [follo
 
 Or, if you know PowerShell really well and know how to translate bash commands to PowerShell commands, feel free to install [Docker Desktop Community](https://www.docker.com/products/docker-desktop) and do everything from PowerShell (honestly it shouldn't be too bad.)
 
-For everyone:
+## Verify Docker installation:
 
 Make sure when you go to a bash prompt and type `docker info` that it outputs system info and doesn't error out. This will let you know that everything is working.
 
