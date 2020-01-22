@@ -59,7 +59,7 @@ And hey, if you could take a second and [star the repo on GitHub][gh] I'd be sup
 [twitter]: https://twitter.com/holtbt
 [github]: https://github.com/btholt
 [linkedin]: https://www.linkedin.com/in/btholt/
-[course]: https://frontendmasters.com/courses/complete-containers/
+[course]: https://frontendmasters.com/courses/complete-intro-containers/
 [vwc]: https://vetswhocode.io/
 [issue]: https://github.com/btholt/complete-intro-to-containers/issues
 [wsl2]: https://docs.microsoft.com/en-us/windows/wsl/wsl2-install
