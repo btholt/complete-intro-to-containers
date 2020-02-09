@@ -54,7 +54,7 @@ This allows you to attach a shell to a running container and mess around with it
 docker kill <IDs or names of containers> # e.g. `docker kill fae0f0974d3d 803e1721dad3 20919c49d6e5` would kill those three containers
 ```
 
-A fun way to kill all runnung containers would be
+A fun way to kill all running containers would be
 
 ```bash
 docker kill $(docker ps -q)
