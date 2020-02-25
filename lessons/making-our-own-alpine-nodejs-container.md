@@ -22,6 +22,22 @@ RUN apk add --update nodejs npm
 
 `RUN apk add --update nodejs npm` will use the Alpine package manager to grab Node.js and npm (they're bundled separately for Alpine.)
 
+If you encounter error like this
+
+```bash
+/home/node/code/node_modules/@hapi/hapi/lib/core.js:51
+    actives = new WeakMap();                                                   // Active requests being processed
+            ^
+
+SyntaxError: Unexpected token =
+```
+
+Try using `nodejs-current` instead of `nodejs`
+
+```dockerfile
+RUN apk add --update nodejs-current npm
+```
+
 Okay so now if you do `docker build -t my-node -f my-node.Dockerfile .` it'll build your new image. `-t` is `--tag` and `-f` is `--file` which is what tells Docker is the name of your Dockerfile you're using (otherwise it assumes you're using a file called exactly `Dockerfile`.) Now try `docker run -it my-node`. In here you should have a pretty bare bones Linux container but both `node -v` and `npm -v` should work.
 
 Keep in mind that Alpine does not use bash for its shell; it uses a different shell called `ash` or often just `sh`. It's similar enough to bash but there are some differences. It's not really the point of this class so we'll keep the focus on learning just what's necessary.
