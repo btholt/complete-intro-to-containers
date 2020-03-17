@@ -6,7 +6,7 @@ section: "Multi Container Projects"
 description: "Kubernetes is a container orchestration tool. It allows you to manage large, complicated clusters of containers to multiple different hosts. Brian goes over what Kubernetes is and the definitions of the various Kubernetes terms."
 ---
 
-I like to tell people that containers are containers are the "simple" (simple is a relative term here) part and Kubernetes is the "hard" (hard isn't relative; Kubernetes is really hard) part. So if this feels hard, it's because it is.
+I like to tell people that containers are the "simple" (simple is a relative term here) part and Kubernetes is the "hard" (hard isn't relative; Kubernetes is really hard) part. So if this feels hard, it's because it is.
 
 NOTE: Because Kubernetes is long, it's often abbreviates at k8s (k then eight letters then s.)
 
