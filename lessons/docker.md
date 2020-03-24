@@ -6,11 +6,11 @@ section: "Docker"
 description: "This is probably why you're here: Docker. Docker is a commandline tool that made creating, updating packaging, distributing, and running containers significantly easier which in turns allowed them become very popular with not just system administraters but the programming populace at large."
 ---
 
-This is probably why you're here: Docker. Docker is a commandline tool that made creating, updating packaging, distributing, and running containers significantly easier which in turns allowed them become very popular with not just system administraters but the programming populace at large. At its heart, it's a command line to achieve what we were doing with cgroups, namespaces, and chroot but in a much more convenient way. Let's dive into the core concepts of Docker.
+This is probably why you're here: Docker. Docker is a commandline tool that made creating, updating packaging, distributing, and running containers significantly easier which in turn allowed them become very popular with not just system administrators but the programming populace at large. At its heart, it's a command line tool to do what we were doing with cgroups, namespaces, and `chroot` but in a much more convenient way. Let's dive into the core concepts of Docker.
 
 ## Docker Desktop
 
-Go ahead and install [Docker Desktop][desktop] right now. It will work for both Mac and Windows. Docker Desktop runs the Docker [daemon][daemon] (daemon just means a program that runs in the background all the time) so that we can download, run, and build containers. If you're on Mac, you'll see a cute little whale icon in your status bar. Feel free to poke around and see what it has. It will also take the liberty of installing the `docker` commandline tool so we can start doing all the fun things with Docker.
+Go ahead and install [Docker Desktop][desktop] right now. It will work for both Mac and Windows. Docker Desktop runs the Docker [daemon][daemon] (daemon just means a program that runs in the background all the time) so that we can download, run, and build containers. If you're on a Mac, you'll see a cute little whale icon in your status bar. Feel free to poke around and see what it has. It will also take the liberty of installing the `docker` commandline tool so we can start doing all the fun things with Docker.
 
 ## Docker Hub
 
