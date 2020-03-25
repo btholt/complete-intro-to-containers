@@ -14,7 +14,7 @@ So it's much easier to do what we did with Docker. Run this command:
 docker run --interactive --tty alpine:3.10 # or, to be shorter: docker run -it alpine:3.10
 ```
 
-A bit easier to remember, right? This will drop you into a Alpine ash shell inside of a container as the root user of that container. When you're done, just run `exit` or hit CTRL+D. Notice that this will grab the [alpine][alpine] image from Docker for you and run it. The `run` part of the command is telling Docker you're going to be executing a container (as opposed to building it.) The `-it` part says you want to be dropped into the container interactively so you can run commands and inspect the container. By default containers run and then exit as soon as they're done. Go ahead and try `docker run alpine:3.10`. It'll look it did nothing but it actually starts the container and then, because it has nothing defined for it to do, it just exits.
+A bit easier to remember, right? This will drop you into a Alpine `bash` shell inside of a container as the root user of that container. When you're done, just run `exit` or hit CTRL+D. Notice that this will grab the [alpine][alpine] image from Docker for you and run it. The `run` part of the command is telling Docker you're going to be executing a container (as opposed to building it.) The `-it` part says you want to be dropped into the container interactively so you can run commands and inspect the container. By default containers run and then exit as soon as they're done. Go ahead and try `docker run alpine:3.10`. It'll look like it did nothing, but it actually starts the container and then, because it has nothing defined for it to do, it just exits.
 
 So what if you wanted it to execute something? Try this:
 
@@ -48,7 +48,7 @@ This will print out all the running containers that Docker is managing for you. 
 docker attach <ID or name> # e.g. `docker attach 20919c49d6e5` would attach to that container
 ```
 
-This allows you to attach a shell to a running container and mess around with it. Useful if you need to inspect something or see running logs. Feel free to type `exit` to get out of here. Run `docker run -dit ubuntu:bionic` one more time. Let's kill this container without attaching to it. Run `docker ps`, get the IDs or names of the containers you want to kill and say:
+This allows you to attach a shell to a running container and mess around with it--useful if you need to inspect something or see running logs. Feel free to type `exit` to get out of here. Run `docker run -dit ubuntu:bionic` one more time. Let's kill this container without attaching to it. Run `docker ps`, get the IDs or names of the containers you want to kill and say:
 
 ```bash
 docker kill <IDs or names of containers> # e.g. `docker kill fae0f0974d3d 803e1721dad3 20919c49d6e5` would kill those three containers
@@ -81,3 +81,5 @@ docker kill my-ubuntu
 ```
 
 This will automatically clean up the container when it's done.
+
+[alpine]: https://hub.docker.com/_/alpine

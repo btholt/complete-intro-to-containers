@@ -6,20 +6,20 @@ section: "Docker"
 description: "There's a lot of features of the Docker CLI and while that won't necessarily be the focus of this workshop, Brian takes a moment to explain to you some of the additional available functionality."
 ---
 
-Let's take a look at some more cool features of the Docker CLI.
+Let's take a look at more cool features of the Docker CLI.
 
 ### pull / push
 
-`pull` allows you to pre-fetch container to run. P
+`pull` allows you to pre-fetch a container to run:
 
 ```bash
 docker pull jturpin/hollywood
 docker run -it jturpin/hollywood hollywood # notice it's already loaded and cached here; it doesn't redownload it
 ```
 
-That will pull the hollywood container from the user jturpin's user account. The second line will execute this fun container which is just meant to look a hacker's screen in a movie (it doesn't really do anything than look cool.)
+That will pull the hollywood container from the user jturpin's user account. The second line will execute this fun container which is just meant to look a hacker's screen in a movie (it doesn't really do anything other than look cool.)
 
-`push` allows you to push containers to whatever registry you're connected to (probably normally Docker Hub or something like Azure Container Registry).
+`push` allows you to push containers to whatever registry you're connected to (normally Docker Hub, or something like Azure Container Registry).
 
 ### inspect
 
@@ -27,11 +27,11 @@ That will pull the hollywood container from the user jturpin's user account. The
 docker inspect node
 ```
 
-This will dump out a lot of info about the container. Helpful when figuring out what's going on with a container
+This will dump out a lot of info about the container. Helpful when figuring out what's going on with a container.
 
 ### pause / unpause
 
-As it looks, these pauses or unpause all the processes in a container. Feel free to try
+Just like it says, these `pause` or `unpause` all the processes in a container. Feel free to try
 
 ```bash
 docker run -dit jturpin/hollywood hollywood
@@ -57,11 +57,11 @@ If you haven't seen `ps aux` before, it's a really useful way to see what's runn
 
 ### import / export
 
-Allows you to dump out your container to a tar ball (which we did above.) You can also import a tar ball as well.
+Allows you to dump your container to a tar ball (which we did above.) You can also import a container from a tar ball.
 
 ### history
 
-We'll get into layers in a bit but this allow you to see how this Docker image's layer composition has changed over time and how recently.
+We'll get into layers in a bit, but this allows you to see how this Docker image's layer composition has changed over time and how recently.
 
 ```bash
 docker history node
@@ -77,7 +77,7 @@ docker info
 
 ### top
 
-Allows you to see processes running on a container (similar to what we did above)
+Allows you to see processes running in a container (similar to what we did above)
 
 ```bash
 docker run mongo
@@ -86,7 +86,7 @@ docker top <ID outputted by previous command> # you should see MongoDB running
 
 ### rm / rmi
 
-If you run `docker ps --all` it'll show all containers you've stopped running in addition to the runs you're running. If you want to remove something from this list, you can do `docker rm <id or name>`.
+If you run `docker ps --all` it'll show all containers you've stopped running in addition to the ones you're running. If you want to remove something from this list, you can do `docker rm <id or name>`.
 
 If you want to remove an image from your computer (to save space or whatever) you can run `docker rmi mongo` and it'll delete the image from your computer. This isn't a big deal since you can always reload it again
 

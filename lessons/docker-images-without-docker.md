@@ -8,7 +8,7 @@ description: "Docker give us the fabulous ability to use containers other people
 
 ## Images
 
-These pre-made containers are called _images_. They basically dump out the state of the container, package that up, and store it so you can use it later. So let's go nab one of these image and run it! We're going to do it first without Docker to show you that you actually already knows what's going on.
+These pre-made containers are called _images_. They basically dump out the state of the container, package that up, and store it so you can use it later. So let's go nab one of these images and run it! We're going to do it first without Docker to show you that you actually already know what's going on.
 
 First thing, let's go grab a container off of Docker Hub. Let's grab the latest Node.js container that runs Ubuntu.
 
@@ -37,6 +37,6 @@ mount -t tmpfs none /tmp
 # here's where you'd do all the cgroup rules making with the settings you wanted to
 ```
 
-So, this isn't totally it. Docker does a lot more for you than just this like networking, volumes, and other things but suffice to say this core of what Docker is doing for you: creating a new environment that's isolated by namespace and limited by cgroups and chroot'ing you into it. So why did we go through all this ceremony? Well, it's because I want you to understand what Docker is doing for you, know that you _could_ do it by hand but since there's a tool that does for you you don't want to. I hold a strong personal belief that tools people need to understand their tools and what they do for them. Every tool you add to your environment adds complexity but should also add ease. If you don't understand the complexity the tool is solving, you resent it and don't get to fully appreciate nor take advantage of what the tool can fully offer.
+So, this isn't totally it. Docker does a lot more for you than just this, like networking, volumes, and other things. But suffice it to say that this is the core of what Docker is doing: creating a new environment that's isolated by namespace, limited by cgroups, and `chroot`'ing you into it. So why did we go through all this ceremony? Well, it's because I want you to understand what Docker is doing for you, and to know that you _could_ do it by hand, but since there's a tool that does for you, you don't want to. I hold a strong personal belief that people need to understand their tools and what they do for them. Every tool you add to your environment adds complexity but should also add ease. If you don't understand the complexity the tool is solving, you resent it and don't get to fully appreciate nor take advantage of what the tool can fully offer.
 
-So how often will you do what we just did? Never. 99% of container-utilizers have no idea this is what's happening under the hood. But now that you know it will make you embrace the complexity that Docker adds because you can see why you have it.
+So how often will you do what we just did? Never. 99% of container users have no idea that this is what's happening under the hood. But now that you know, it will make you embrace the complexity that Docker adds because you can see why you have it.

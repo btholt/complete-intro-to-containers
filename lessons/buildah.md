@@ -10,11 +10,11 @@ description: "There are alternatives to Docker. Buildah is a tool that allows yo
 
 ## Intro
 
-While a lot of the gravity of the container world centers on Docker and the Dockery ecosystem, there are other great projects that exist and are worthy of your consideration. I want to take the most brief detour to showcase the totally-open-source alternatives to Docker: [Buildah][buildah] and [Podman][podman]. Can we agree that containers projects have the cutest logos ever?
+While a lot of the gravity of the container world centers on Docker and the Docker ecosystem, there are other great projects that exist and are worthy of your consideration. I want to take the most brief detour to showcase the totally-open-source alternatives to Docker: [Buildah][buildah] and [Podman][podman]. Can we agree that containers projects have the cutest logos ever?
 
 A lot of the non-Docker support is centered behind what's called the [Open Container Initiative][oci] which is a project underneath the Linux Foundation. Keep in mind that Docker supports the OCI; they're members of it. This is meant to encourage a healthy diversity of players in the field and to have certain common guidelines so that the various sorts of tools can work together. Everybody wins here.
 
-We're going to talk about these two tools, Buildah and Podman, that allow you to create and run OCI container images. Whereas we've been using Docker to both build and run Docker containers, we're going to use Buildah to build containers and Podman to run them. In reality, with Docker we've been using `docker` to build containers and Docker Desktop has been running `dockerd` in the background to run the containers for us, so the same separation has existed even if we didn't have to know that directly.
+We're going to talk about these two tools, Buildah and Podman, that allow you to create and run OCI container images. Whereas we've been using Docker to both build and run Docker containers, we're going to use Buildah to _build_ containers and Podman to _run_ them. In reality, with Docker we've been using `docker` to build containers and Docker Desktop has been running `dockerd` in the background to run the containers for us, so the same separation has existed, even if we didn't know that directly.
 
 There's a lot to these tools and they overlap quite a bit too. We're just going to introduce you to these and then move on.
 
@@ -96,7 +96,7 @@ In order to do this part, you have to run this outside of a container.
 
 We need to first transfer our container out of Buildah and into Docker. We also need to be aware that there are two ways to package a container: Docker and OCI. If we tell Buildah to push to Docker, it'll fix that automatically but be aware you can also use OCI (Open Container Initiative) images as well.
 
-Just like you can push a container to Docker Hub, you can use the same mechanism within Buildah to push to a local Docker daemon (background process.) So ahead and run `buildah push localhost/my-app-buildah docker-daemon:my-app-buildah:latest`. This will move our app out Buildah and into Docker. Now if you run `docker run -it my-app-buildah bash` it should drop you into a running container. As a fun exercise, try to start the Node.js app and connect it to a running `mongo` container using the techniques we learned before. Now you have one container built using Docker connecting to a container built using Buildah. Pretty cool!
+Just like you can push a container to Docker Hub, you can use the same mechanism within Buildah to push to a local Docker daemon (background process.) So ahead and run `buildah push localhost/my-app-buildah docker-daemon:my-app-buildah:latest`. This will move our app out of Buildah and into Docker. Now if you run `docker run -it my-app-buildah bash` it should drop you into a running container. As a fun exercise, try to start the Node.js app and connect it to a running `mongo` container using the techniques we learned before. Now you have one container built using Docker connecting to a container built using Buildah. Pretty cool!
 
 [buildah]: https://buildah.io/
 [podman]: https://podman.io/

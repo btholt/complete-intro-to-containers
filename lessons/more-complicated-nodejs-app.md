@@ -44,14 +44,14 @@ start().catch(err => {
 });
 ```
 
-This is a [hapi.js][hapi] server. Hapi is a server-side framework (like Express) for Node.js and my personal favorite. This is going to require that we `npm install` the dependencies. So in your project do the following
+This is a [hapi.js][hapi] server. Hapi is a server-side framework (like Express) for Node.js and my personal favorite. This is going to require that we `npm install` the dependencies. So in your project do the following:
 
 ```bash
 npm init -y # this will create a package.json for you without asking any questions
 npm install @hapi/hapi hapi-pino
 ```
 
-Now try running `node index.js` to run the Node.js server. You should see it running and logging out info whenever you hit an endpoint. Cool, so now that we have a full featured Node.js app, let's containerize it.
+Now try running `node index.js` to run the Node.js server. You should see it running and logging out info whenever you hit an endpoint. Cool, so now that we have a full-featured Node.js app, let's containerize it.
 
 If we tried to build it and run it right now it'd fail because we didn't `npm install` the dependencies. So now right after the `COPY` we'll add a `RUN`.
 
@@ -69,7 +69,7 @@ RUN npm ci
 CMD ["node", "index.js"]
 ```
 
-We changed the `COPY` to copy everything in the directory. Right now you probably a `node_modules` but if you're building a container directly from a repo it won't copy the `node_modules` so we have to operate under the assumption that those won't be there. Feel free even to delete them if you want.
+We changed the `COPY` to copy everything in the directory. Right now you probably have a `node_modules` but if you're building a container directly from a repo it won't copy the `node_modules` so we have to operate under the assumption that those won't be there. Feel free even to delete them if you want.
 
 Let's go ahead and add a `.dockerignore` file to the root of the project that prevents Docker from copying the `node_modules`. This has the same format as a `.gitignore`.
 
@@ -101,3 +101,5 @@ CMD ["node", "index.js"]
 Now try building and running your container. It should work now! Yay!
 
 **NOTE:** make sure you don't bind your app to host `localhost` (like if you put `localhost` instead of `0.0.0.0` in the host in our hapi app.) This will make it so the app is only available _inside_ the container. If you see `connection reset` instead of when you're expecting a response, this a good candidate for what's happening (because this definitely didn't _just_ happen to me 😂.)
+
+[hapi]: https://github.com/hapijs/hapi
