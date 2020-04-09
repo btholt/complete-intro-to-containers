@@ -3,10 +3,10 @@ path: "/getting-set-up-with-docker"
 title: "Getting Set Up with Docker"
 order: 3.0
 section: "Docker"
-description: "This is probably why you're here: Docker. Docker is a commandline tool that made creating, updating packaging, distributing, and running containers significantly easier which in turns allowed them become very popular with not just system administraters but the programming populace at large."
+description: "This is probably why you're here: Docker. Docker is a commandline tool that made creating, updating packaging, distributing, and running containers significantly easier which in turns allowed them become very popular with not just system administrators but the programming populace at large."
 ---
 
-This is probably why you're here: Docker. Docker is a commandline tool that made creating, updating packaging, distributing, and running containers significantly easier which in turns allowed them become very popular with not just system administraters but the programming populace at large. At its heart, it's a command line to achieve what we were doing with cgroups, namespaces, and chroot but in a much more convenient way. Let's dive into the core concepts of Docker.
+This is probably why you're here: Docker. Docker is a commandline tool that made creating, updating packaging, distributing, and running containers significantly easier which in turns allowed them become very popular with not just system administrators but the programming populace at large. At its heart, it's a command line to achieve what we were doing with cgroups, namespaces, and chroot but in a much more convenient way. Let's dive into the core concepts of Docker.
 
 ## Docker Desktop
 
