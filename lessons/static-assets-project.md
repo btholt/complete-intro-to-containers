@@ -6,7 +6,7 @@ section: "Making Tiny Containers"
 description: "Brian gives an exercise to make the create-react-app app be served by NGINX so that it's understandable how to pull into someone else's container they've built and build on top of it."
 ---
 
-We're going to do a project now! Free to attempt the project first and then follow along with me as I code the answer.
+We're going to do a project now! Feel free to attempt the project first and then follow along with me as I code the answer.
 
 We're going to construct a very basic front end website with React, TypeScript, and Sass. Why these? Because I want it to have a lot of dependencies and a big build step. This class isn't about any of these things (and I don't personally endorse the use of Sass anymore though I respect those who do.) If you want to take a class on React, my [intro][intro] and [intermediate][intermediate] classes are available on Frontend Masters.
 
