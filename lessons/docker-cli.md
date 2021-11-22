@@ -10,7 +10,7 @@ Let's take a look at some more cool features of the Docker CLI.
 
 ### pull / push
 
-`pull` allows you to pre-fetch container to run. P
+`pull` allows you to pre-fetch container to run.
 
 ```bash
 docker pull jturpin/hollywood
