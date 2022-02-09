@@ -1,3 +1,14 @@
+[Complete Intro to Containers (feat. Docker)][course]
+
+[![Frontend Masters](/lessons/images/FrontendMastersLogo.png)][fem]
+
+- [Please click here][website] to head to the course website.
+- See the [course on Frontend Masters][course]
+
+# Issues and Pull Requests
+
+Please file issues and open pull requests here! Thank you!
+
 # Getting Set Up
 
 ## For Everyone
@@ -33,3 +44,13 @@ docker pull nginx:1.17
 docker pull mongo:3
 docker pull jguyomard/hugo-builder:0.55
 ```
+
+# License
+
+The content of this workshop is licensed under CC-BY-NC-4.0. Feel free to share freely but do not resell my content.
+
+The code, including the code of the site itself and the code in the exercises, are licensed under Apache 2.0.
+
+[website]: https://btholt.github.io/complete-intro-to-containers/
+[fem]: https://www.frontendmasters.com
+[course]: https://frontendmasters.com/courses/complete-intro-containers/

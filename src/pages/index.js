@@ -35,8 +35,7 @@ const IndexPage = () => (
     render={props => (
       <div className="index">
         <div className="jumbotron gradient">
-          <h1>{props.site.siteMetadata.title}</h1>
-          <h2>{props.site.siteMetadata.subtitle}</h2>
+          <h1>{props.site.siteMetadata.title} (feat. Docker) {props.site.siteMetadata.subtitle}</h1>
         </div>
 
         <Card
