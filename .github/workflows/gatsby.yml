@@ -14,8 +14,9 @@ jobs:
         run: |
           npm install
           npm run build
-      - name: Deploy site to gh-pages branch
-        uses: alex-page/blazing-fast-gh-pages-deploy@v1.1.0
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          site-directory: public
+          branch: gh-pages
+          folder: public
+          token: ${{ secrets.GITHUB_TOKEN }}
