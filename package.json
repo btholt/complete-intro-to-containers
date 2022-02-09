@@ -39,7 +39,8 @@
     "csv": "node csv.js",
     "dev": "gatsby develop",
     "format": "prettier --write \"src/**/*.{js,jsx,md,css}\"",
-    "lint": "eslint \"src/**/*.{js,jsx}\""
+    "lint": "eslint \"src/**/*.{js,jsx}\"",
+    "deploy": "gatsby build --prefix-paths && gh-pages -d public -b gh-pages"
   },
   "devDependencies": {
     "@babel/polyfill": "^7.12.1",
