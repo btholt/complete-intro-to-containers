@@ -6,13 +6,13 @@ section: "Multi Container Projects"
 description: "Kompose converts a docker-compose.yml configuration to a Kubernetes configuration. Brian shows how to take the previous Docker Compose YAML file and running that same configuration through Kubernetes"
 ---
 
-Next tool we're going to use is one called [Kompose][kompose]. I'm showing you this tool because it's normally how I start out with Kubernetes. Kompose converts a docker-compose.yml configuration to a Kubernetes configuration. I find this to much more approachable than starting with the myriad configurations you need to get Kubernetes going.
+Next tool we're going to use is one called [Kompose][kompose]. I'm showing you this tool because it's normally how I start out with Kubernetes. Kompose converts a docker-compose.yml configuration to a Kubernetes configuration. I find this to be much more approachable than starting with the myriad configurations you need to get Kubernetes going.
 
 [Click here][install-kompose] to see how to install Kompose on your platform.
 
 So first let's modify our docker-compose.yml a bit to make it work for Kompose.
 
-```yml
+```yaml
 version: "3"
 services:
   web:
@@ -33,9 +33,9 @@ services:
 
 Kompose (as of writing) doesn't have a way to easily use local images without pushing it to Docker Hub. If you want to use your own image, add back your `build: .` line and call the image something like `image: <your Docker Hub username>/node-app` and make sure you're logged into the Docker CLI via `docker login`. I've built the image that we've been building together and pushed it to `btholt/node-app` so feel free to just use mine. It's the same code.
 
-We add the `LoadBalancer` label so that Kubernetes will know to expose this particular service to the outside world. What this actually does for you is it spins up a loadbalancer that will distribute the load amongst all of your running pods. Do note tha this one of three ways to expose a service to outside world (by default everything is only expose internally). The other two are NodePort and using an ingress controller. [This is a great explainer][ingress] if you're curious. For now LoadBalancer is perfect.
+We add the `LoadBalancer` label so that Kubernetes will know to expose this particular service to the outside world. What this actually does for you is it spins up a load balancer that will distribute the load amongst all of your running pods. Do note that this is one of three ways to expose a service to outside world (by default everything is only exposed internally). The other two are NodePort and using an ingress controller. [This is a great explainer][ingress] if you're curious. For now LoadBalancer is perfect.
 
-Lastly, we need to explicit about the port MongoDB exposes. Locally Docker was able to take care of it but Kubernetes needs us to be super explicity of what's exposed and what's not.
+Lastly, we need to be explicit about the port that MongoDB exposes. Locally Docker was able to take care of it, but Kubernetes needs us to be super explicit with what's exposed and what's not.
 
 Okay, so now, a hack. Kompose expects kubectl to be listening on port 8080. We need to do that because it doesn't by default. So run `kubectl proxy --port=8080` and leave that running. You may need to open another terminal while that runs or run that last command in the background.
 
@@ -53,7 +53,7 @@ We did all of this from a docker-compose.yml file but that's just to get you sta
 
 ## To the cloud!
 
-What's super fun is that kubectl is the same tool you'd use to control your production deployment. So everything you just learn would work against Azure, AWS, GCP, etc. All you have to do is change the context from minikube or docker-desktop to Azure, AWS, or GCP. I'm not going to do that but I'll drop the tutorials here so you can play around yourself. Do note these are often not free and if you're not careful, Kubernetes can get expensive!
+What's super fun is that kubectl is the same tool you'd use to control your production deployment. So everything you just learn would work against Azure, AWS, GCP, etc. All you have to do is change the context from minikube or docker-desktop to Azure, AWS, or GCP. I'm not going to do that but I'll drop the tutorials here so you can play around yourself. Do note that these are often not free, and if you're not careful Kubernetes can get expensive!
 
 - [Azure AKS][aks]
 - [Amazon EKS][aws]
