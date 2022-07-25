@@ -48,7 +48,7 @@ This is a [hapi.js][hapi] server. Hapi is a server-side framework (like Express)
 
 ```bash
 npm init -y # this will create a package.json for you without asking any questions
-npm install @hapi/hapi hapi-pino
+npm install @hapi/hapi@18.4.0 hapi-pino@6.3.0
 ```
 
 Now try running `node index.js` to run the Node.js server. You should see it running and logging out info whenever you hit an endpoint. Cool, so now that we have a full featured Node.js app, let's containerize it.
