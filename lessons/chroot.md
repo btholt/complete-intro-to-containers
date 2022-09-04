@@ -14,7 +14,7 @@ Let's try it. Start up a Ubuntu VM however you feel most comfortable. I'll be us
 
 If you're in Windows and using WSL, just open a new WSL terminal in Ubuntu. ✌️
 
-To see what version of Ubuntu you're using, run `cat /etc/issue/`. `cat` reads a file and dumps it into the output which means we can read it, and `/etc/issue` is a file that will tell us what distro we're using. Mine says `Ubuntu 18.04.3 LTS \n \l`.
+To see what version of Ubuntu you're using, run `cat /etc/issue`. `cat` reads a file and dumps it into the output which means we can read it, and `/etc/issue` is a file that will tell us what distro we're using. Mine says `Ubuntu 18.04.3 LTS \n \l`.
 
 Okay, so let's attempt to use `chroot` right now.
 
