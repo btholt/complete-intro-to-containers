@@ -14,7 +14,7 @@ We're going to create a new project using [create-react-app][cra]. Go to the dir
 
 This will scaffold out a whole new TypeScript React project for you.
 
-**OPTIONAL:** Go into the project and run `npm install node-sass`. This will install the Sass compiler for you. Go change both of the `.css` files in this project to have the `.scss` extensions (everything that's valid in CSS is valid in SCSS.) Update the two `.css` imports in `App.tsx` and `index.tsx` to have `.scss imports instead. If you're struggling with the Sass stuff, feel free to leave it out and just go with an out-of-the-box CRA app, the Sass stuff is just to drive home the point that you can have as many dependencies as you want.
+**OPTIONAL:** Go into the project and run `npm install node-sass@7.0.3`. This will install the Sass compiler for you. Go change both of the `.css` files in this project to have the `.scss` extensions (everything that's valid in CSS is valid in SCSS.) Update the two `.css` imports in `App.tsx` and `index.tsx` to have `.scss imports instead. If you're struggling with the Sass stuff, feel free to leave it out and just go with an out-of-the-box CRA app, the Sass stuff is just to drive home the point that you can have as many dependencies as you want.
 
 To make sure this works right now, run `npm run start` in your console and make sure the app starts okay. You should see a splash screen. Once you're ready to build it, run `npm run build` to have it build for production.
 
