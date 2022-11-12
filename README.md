@@ -24,9 +24,11 @@ Please make sure you have the following things installed and ready to go!
 
 ## For Windows
 
-If **you have Windows 10 Professional** (it doesn't work in Home), try [WSL 2](https://docs.microsoft.com/en-us/windows/wsl/wsl2-install) and [Docker for WSL 2](https://docs.docker.com/docker-for-windows/wsl-tech-preview/). WSL stands for Window Subsystem for Linux. It allows you to run Linux within Windows. That's what I'll be using. WSL 2 works faster than WSL1 but it's harder to set up since it's still in preview.
+**NOTE**: As of 5 March, 2020 Docker Desktop is now also supported with Windows 10 Home, just make sure you are on Windows Insider Preview build 19040 or Higher.
 
-If you do not have Windows 10 Professional and you do not want to buy it, [follow this blog post](https://medium.com/@mbyfieldcameron/docker-on-windows-10-home-edition-c186c538dff3) to install VirtualBox and a Linux VM so you can follow inside of Linux. I'd suggest using Ubuntu.
+If **you have Windows 10** it is recommended to use [WSL 2](https://docs.microsoft.com/en-us/windows/wsl/wsl2-install) and [Docker for WSL 2](https://docs.docker.com/docker-for-windows/wsl-tech-preview/). WSL stands for Window Subsystem for Linux. It allows you to run Linux within Windows. That's what I'll be using. WSL 2 works faster than WSL1 but it's harder to set up since it's still in preview.
+
+Or you can [follow this blog post](https://medium.com/@mbyfieldcameron/docker-on-windows-10-home-edition-c186c538dff3) to install VirtualBox and a Linux VM so you can follow inside of Linux. I'd suggest using Ubuntu.
 
 Or, if you know PowerShell really well and know how to translate bash commands to PowerShell commands, feel free to install [Docker Desktop Community](https://www.docker.com/products/docker-desktop) and do everything from PowerShell (honestly it shouldn't be too bad.)
 
