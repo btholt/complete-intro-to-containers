@@ -24,7 +24,7 @@ That will pull the hollywood container from the user jturpin's user account. The
 ### inspect
 
 ```bash
-docker inspect node
+docker inspect node:12-stretch
 ```
 
 This will dump out a lot of info about the container. Helpful when figuring out what's going on with a container
