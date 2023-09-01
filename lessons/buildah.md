@@ -22,7 +22,7 @@ There's a lot to these tools and they overlap quite a bit too. We're just going 
 
 ### Installation
 
-Follow [the instructions here][buildah-install] for your distro of Linux (if you're not using the container, I will be except for one part at thend):
+Follow [the instructions here][buildah-install] for your distro of Linux (if you're not using the container, I will be except for one part at the end):
 
 This is for only if you're not using the Buildah container. Make sure you have a valid `/etc/containers/registries.conf`. If you don't have that file, put this there:
 
