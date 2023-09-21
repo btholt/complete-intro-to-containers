@@ -8,7 +8,7 @@ description: "Containers can be used in conjunction with Visual Studio Code to a
 
 ## Visual Studio Code
 
-As you may imagine, I'm a big fan of Visual Studio Code. And I'm a big fan of investing time to learn your tools very well. If you haven't [Burke Holland's course on Frontend Masters][burke] on Visual Studio Code. He as well touches on some of the things we're about to talk about here.
+As you may imagine, I'm a big fan of Visual Studio Code. And I'm a big fan of investing time to learn tools very well. If you haven't seen the [Burke Holland's course on Frontend Masters][burke] on Visual Studio Code I highly recommend you to do so. He as well touches on some of the things we're about to talk here.
 
 Visual Studio Code has a relatively recent feature that it can connect to remote environments (remote in the sense as in you're editing files not on your host.) You can use VSCode to connect to remote virtual machines (or really anything that's SSH-able), to WSL (Linux running on Windows), and finally to containers.
 
